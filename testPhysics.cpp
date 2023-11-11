@@ -86,61 +86,61 @@ void PhysicsTest::h_above_earth_normal()
 void PhysicsTest::direction_g_normal()
 {
 	//setup
-
+	double xs = 3465326;
+	double ys =-23462;
+	double expected = 3.134822;
 	//exercise
-
+	result = physics.directionOfGravityPull(xs, ys);
 	//verify
-
-	//teardown
-
+	assert(result == expected);
 }
 
-void PhysicsTest::compute_h_component_large()
+void PhysicsTest::compute_h_component_positive()
 {
 	//setup
-
+	double a = 32;
+	double angle = 1.23;
+	double expected = 0.737161862;
 	//exercise
-
+	result = physics.computeHorizontalComponent(a, angle);
 	//verify
-
-	//teardown
-
+	assert(result == expected);
 }
 
-void PhysicsTest::compute_h_component_small()
+void PhysicsTest::compute_h_component_negative()
 {
 	//setup
-
+	double a = -32;
+	double angle = 1.23;
+	double expected = -0.737161862;
 	//exercise
-
+	result = physics.computeHorizontalComponent(a, angle);
 	//verify
-
-	//teardown
-
+	assert(result == expected);
 }
 
-void PhysicsTest::compute_v_component_large()
+void PhysicsTest::compute_v_component_positive()
 {
 	//setup
-
+	double a = 32;
+	double angle = 1.23;
+	double expected = 31.99150813;
 	//exercise
-
+	result = physics.computeVerticalComponent(a, angle);
 	//verify
-
-	//teardown
-
+	assert(result == expected);
 }
 
-void PhysicsTest::compute_v_component_small()
+void PhysicsTest::compute_v_component_negative()
 {
 	//setup
-
+	double a = -32;
+	double angle = 1.23;
+	double expected = -31.99150813;
 	//exercise
-
+	result = physics.computeVerticalComponent(a, angle);
 	//verify
-
-	//teardown
-
+	assert(result == expected);
 }
 
 void PhysicsTest::new_position_normal()
