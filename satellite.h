@@ -32,7 +32,12 @@ class GPS : public Satellite
 {
 public:
 	GPS(const Position& position) : Satellite(position) {}
-	static GPS* create(const Position& ptUpperRight)
+
+	static GPS* create(const Position& position) {
+		return new GPS(position);
+	}
+
+	static GPS* createRandomized(const Position& ptUpperRight)
 	{
 		return new GPS(randomizePosition(ptUpperRight, 0.0, 42164000));
 	}
