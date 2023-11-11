@@ -151,6 +151,7 @@
     <ClCompile Include="simulator.cpp" />
     <ClCompile Include="test.cpp" />
     <ClCompile Include="testPhysics.cpp" />
+    <ClCompile Include="testSimulator.cpp" />
     <ClCompile Include="uiDraw.cpp" />
     <ClCompile Include="uiInteract.cpp" />
   </ItemGroup>
