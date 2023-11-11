@@ -27,7 +27,26 @@ public:
 
     void run()
     {
+        //getters
+        void get_vx_positive();
+        void get_vx_negative();
+        void get_vy_positive();
+        void get_vy_negative();
 
+        //computations
+        void compute_g_normal();
+        void h_above_earth_normal();
+        void direction_g_normal();
+        void compute_h_component_positive();
+        void compute_h_component_negative();
+        void compute_v_component_positive();
+        void compute_v_component_negative();
+        void new_position_normal();
+        void compute_motion_normal();
+        void compute_h_pos_normal();
+        void compute_v_pos_normal();
+        void compute_distance_normal();
+        void compute_v_normal();
     }
 
 
@@ -52,7 +71,6 @@ private:
     void compute_h_pos_normal();
     void compute_v_pos_normal();
     void compute_distance_normal();
-    void compute_distance_invalid();
     void compute_v_normal();
 };
 

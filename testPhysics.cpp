@@ -146,83 +146,77 @@ void PhysicsTest::compute_v_component_negative()
 void PhysicsTest::new_position_normal()
 {
 	//setup
-
+	double new_pos = 12345.123;
+	double expected = 12345.123;
 	//exercise
-
+	result = physics.newPosition(new_pos);
 	//verify
-
-	//teardown
-
+	assert(result == expected);
 }
 
 void PhysicsTest::compute_motion_normal()
 {
 	//setup
-
+	double s0 = 123;
+	double v = 1543;
+	double t = 3.5;
+	double expected = 5523.5;
 	//exercise
-
+	result = physics.computeMotion(s0, v, t);
 	//verify
-
-	//teardown
-
+	assert(result == expected);
 }
 
 void PhysicsTest::compute_h_pos_normal()
 {
 	//setup
-
+	double x0 = 123;
+	double dx = 1543;
+	double t = 3.5;
+	double expected = 5523.5;
 	//exercise
-
+	result = physics.computeHorizontalPosition(x0, dx, t);
 	//verify
-
-	//teardown
-
+	assert(result == expected);
 }
 
 void PhysicsTest::compute_v_pos_normal()
 {
 	//setup
-
+	double y0 = 123;
+	double dy = 1543;
+	double t = 3.5;
+	double expected = 5523.5;
 	//exercise
-
+	result = physics.computeVerticalPosition(y0, dy, t);
 	//verify
-
-	//teardown
-
+	assert(result == expected);
 }
 
 void PhysicsTest::compute_distance_normal()
 {
 	//setup
-
+	double s0 = 123;
+	double v = 1543;
+	double t = 3.5;
+	double a = -234;
+	double expected = 4090.25;
 	//exercise
-
+	result = physics.computeDistance(s0, v, t, a);
 	//verify
-
-	//teardown
-
+	assert(result == expected);
 }
 
-void PhysicsTest::compute_distance_invalid()
-{
-	//setup
-
-	//exercise
-
-	//verify
-
-	//teardown
-
-}
 
 void PhysicsTest::compute_v_normal()
 {
 	//setup
-
+	double v0 = 123;
+	double a = 1543;
+	double t = 3.5;
+	double expected = 5523.5;
 	//exercise
-
+	result = physics.computeVelocity(v0, a, t);
 	//verify
-
-	//teardown
-
+	assert(result == expected);
 }
