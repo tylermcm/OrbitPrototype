@@ -13,6 +13,7 @@ public:
 
     void setVelocityX(double velX) { velocityX = velX; }
     void setVelocityY(double velY) { velocityY = velY; }
+    void setTimePerFrame(double time) { timePerFrame = time; }
 
     double computeGravity(double h) const;
     double heightAboveEarth(double x, double y) const;
