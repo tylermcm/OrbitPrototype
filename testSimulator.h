@@ -7,10 +7,10 @@ class testSimulator
 public:
 	void run()
 	{
-        //testInitialConditions();
+        testInitialConditions();
         //testGpsStationary();
         //testTimePerFrameEffect();
-        //testIntegrationWithPhysics();
+        testIntegrationWithPhysics();
         //testPositiveVelocity();
         //testNegativeVelocity();
         //testAccelerationEffectOnVelocity();
