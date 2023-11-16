@@ -18,6 +18,7 @@
 #include "simulator.h"
 #include "element.h"
 #include "satellite.h"
+#include "test.h"
 using namespace std;
 
 /*************************************************************************
@@ -111,6 +112,7 @@ int main(int argc, char** argv)
 #endif // !_WIN32
 {
 	// Initialize OpenGL
+	testRunner();
 	Position ptUpperRight;
 	ptUpperRight.setZoom(128000.0 /* 128km equals 1 pixel */);
 	ptUpperRight.setPixelsX(1000.0);
