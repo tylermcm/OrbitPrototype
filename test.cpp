@@ -33,5 +33,6 @@ void testRunner()
 	cout << "--------------------------------------------------------" << endl;
 	testSimulator().run();
 
-	cout << "All tests passed";
+	cout << "--------------------------------------------------------" << endl;
+	cout << "All tests passed!";
 }
