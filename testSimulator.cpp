@@ -1,150 +1,192 @@
 #include <cassert>
+#include <cmath>
 #include "testSimulator.h"
 #include "satellite.h"
 
-
-void testSimulator::testInitialConditions()
+void testSimulator::testGpsStartPosition()
 {
-    GPS* gps = GPS::createRandomized(ptUpperRight);
-    Position newPos = gps->getPosition();
-    assert(newPos.getMetersX() == 0.0);
-    assert(newPos.getMetersY() == 42164000);
+	//setup
+	GPS* gps = GPS::create(pos, 0.0, 26'560'000.0, -3880.0, 0.0);
+	Position newPos = gps->getPosition();
+
+	//exercise
+	sim.simulation(*gps);
+
+	//verify
+	assert(newPos.getMetersX() == 0.0);
+	assert(newPos.getMetersY() == 26'560'000.0);
+
+	//teardown
+	delete gps;
+}
+
+void testSimulator::testGpsUpdatedPosition()
+{
+	//setup
+	GPS* gps = GPS::create(pos, 0.0, 26'560'000.0, -3880.0, 0.0);
+	double expectedX = -186240.0;
+	double expectedY = 26558045.63;
+
+	//exercise
+	gps->updatePosition(sim);
+	Position updatedPos = gps->getPosition();
+
+	//verify
+	assert(fabs(updatedPos.getMetersX() - expectedX) < EPSILON);
+	assert(fabs(updatedPos.getMetersY() - expectedY) < EPSILON);
+
+	//teardown
+	delete gps;
+}
+
+void testSimulator::testGpsPositiveXVelocity()
+{
+    //setup
+    GPS* gps = GPS::create(pos, 0.0, 26'560'000.0, 3880.0, 0.0);
+    double expectedX = 186240.0;
+    double expectedY = 26558045.63;
+
+    //exercise
+    gps->updatePosition(sim);
+    Position updatedPos = gps->getPosition();
+
+    //verify
+    assert(fabs(updatedPos.getMetersX() - expectedX) < EPSILON);
+    assert(fabs(updatedPos.getMetersY() - expectedY) < EPSILON);
+
+    //teardown
     delete gps;
 }
 
-void testSimulator::testGpsStationary()
+void testSimulator::testGpsPositiveYVelocity()
 {
-    Position ptUpperRight(1000000, 1000000);
-    physics.setTimePerFrame(0);
-    GPS* gps = GPS::create(ptUpperRight);
-    gps->updatePosition(simulator);
+    //setup
+    GPS* gps = GPS::create(pos, 0.0, 26'560'000.0, 0.0, 4000.0);
+    double expectedX = 0;
+    double expectedY = 26750045.62;
 
-    Position initialPosition = gps->getPosition();
-    simulator.simulation(*gps);
-    Position newPosition = gps->getPosition();
-    assert(initialPosition.getMetersX() == newPosition.getMetersX());
-    assert(initialPosition.getMetersY() == newPosition.getMetersY());
+    //exercise
+    gps->updatePosition(sim);
+    Position updatedPos = gps->getPosition();
+
+    //verify
+    assert(fabs(updatedPos.getMetersX() - expectedX) < EPSILON);
+    assert(fabs(updatedPos.getMetersY() - expectedY) < EPSILON);
+
+    //teardown
     delete gps;
 }
 
-void testSimulator::testTimePerFrameEffect()
+void testSimulator::testGpsNegativeYVelocity()
 {
-    physics.setTimePerFrame(1.0);
-    GPS* gps = GPS::create(Position(1000000, 1000000));
-    gps->updatePosition(simulator);
+    //setup
+    GPS* gps = GPS::create(pos, 0.0, 26'560'000.0, 0.0, -3500.0);
+    double expectedX = 0;
+    double expectedY = 26390045.62;
 
-    //simulator.simulation(*gps);
-    Position newPos = gps->getPosition();
-    double expectedPosY = 0.5 * physics.computeGravity(newPos.getMetersY()) * std::pow(1.0, 2);
-    assert(newPos.getMetersY() <= expectedPosY);
+    //exercise
+    gps->updatePosition(sim);
+    Position updatedPos = gps->getPosition();
+
+    //verify
+    assert(fabs(updatedPos.getMetersX() - expectedX) < EPSILON);
+    assert(fabs(updatedPos.getMetersY() - expectedY) < EPSILON);
+
+    //teardown
     delete gps;
 }
 
-void testSimulator::testIntegrationWithPhysics()
+void testSimulator::testGpsNoVelocity()
 {
-    GPS* gps = GPS::create(Position(1000000, 1000000));
-    gps->updatePosition(simulator);
-    //simulator.simulation(*gps);
+    //setup
+    GPS* gps = GPS::create(pos, 0.0, 26'560'000.0, 0.0, 0.0);
+    double expectedX = 0.0;
+    double expectedY = 26'558'045.62; //position change due to gravity
 
-    Position newPos = gps->getPosition();
-    double expectedPosX = physics.computeHorizontalPosition(1000000, physics.computeHorizontalComponent(physics.computeGravity(physics.heightAboveEarth(1000000, 1000000)), physics.directionOfGravityPull(1000000, 1000000)), physics.getTimePerFrame());
-    double expectedPosY = physics.computeVerticalPosition(1000000, physics.computeVerticalComponent(physics.computeGravity(physics.heightAboveEarth(1000000, 1000000)), physics.directionOfGravityPull(1000000, 1000000)), physics.getTimePerFrame());
-    assert(newPos.getMetersX() == expectedPosX);
-    assert(newPos.getMetersY() == expectedPosY);
+    //exercise
+    gps->updatePosition(sim);
+    Position updatedPos = gps->getPosition();
+
+    //verify
+    assert(fabs(updatedPos.getMetersX() - expectedX) < EPSILON);
+    assert(fabs(updatedPos.getMetersY() - expectedY) < EPSILON);
+
+    //teardown
     delete gps;
 }
 
-void testSimulator::testPositiveVelocity()
+void testSimulator::testGpsEdgeXVelocity()
 {
-    physics.setVelocityX(5.0);
-    physics.setVelocityY(5.0);
-    physics.setTimePerFrame(1.0);
-    GPS* gps = GPS::create(Position(0, 0));
-    gps->updatePosition(simulator);
-    simulator.simulation(*gps);
+    //setup
+    GPS* gps = GPS::create(pos, 0.0, 26'560'000.0, 50'000.0, 0.0);
+    double expectedX = 2'400'000.0;
+    double expectedY = 26'558'045.62;
 
-    Position newPos = gps->getPosition();
-    double expectedPosX = physics.computeMotion(0, 5.0, 1.0);
-    double expectedPosY = physics.computeMotion(0, 5.0, 1.0);
-    assert(newPos.getMetersX() == expectedPosX);
-    assert(newPos.getMetersY() == expectedPosY);
+    //exercise
+    gps->updatePosition(sim);
+    Position updatedPos = gps->getPosition();
+
+    //verify
+    assert(fabs(updatedPos.getMetersX() - expectedX) < EPSILON);
+    assert(fabs(updatedPos.getMetersY() - expectedY) < EPSILON);
+
+    //teardown
     delete gps;
 }
 
-void testSimulator::testNegativeVelocity()
+void testSimulator::testGpsEdgeYVelocity()
 {
-    physics.setVelocityX(-5.0);
-    physics.setVelocityY(-5.0);
-    physics.setTimePerFrame(1.0);
-    GPS* gps = GPS::create(Position(0, 0));
-    gps->updatePosition(simulator);
-    simulator.simulation(*gps);
+    //setup
+    GPS* gps = GPS::create(pos, 0.0, 26'560'000.0, -3880.0, 50'000.0);
+    double expectedX = -186'240.0;
+    double expectedY = 28'958'045.62;
 
-    Position newPos = gps->getPosition();
-    double expectedPosX = physics.computeMotion(0, -5.0, 1.0);
-    double expectedPosY = physics.computeMotion(0, -5.0, 1.0);
-    assert(newPos.getMetersX() == expectedPosX);
-    assert(newPos.getMetersY() == expectedPosY);
+    //exercise
+    gps->updatePosition(sim);
+    Position updatedPos = gps->getPosition();
+
+    //verify
+    assert(fabs(updatedPos.getMetersX() - expectedX) < EPSILON);
+    assert(fabs(updatedPos.getMetersY() - expectedY) < EPSILON);
+
+    //teardown
     delete gps;
 }
 
-void testSimulator::testAccelerationEffectOnVelocity()
+void testSimulator::testGpsEdgePosY()
 {
-    physics.setVelocityX(0.0);
-    physics.setVelocityY(0.0);
-    physics.setTimePerFrame(1.0);
-    GPS* gps = GPS::create(Position(0, 0));
-    gps->updatePosition(simulator);
-    simulator.simulation(*gps);
+    //setup
+    GPS* gps = GPS::create(pos, 0.0, 65'000'000.0, -3880.0, 0.0);
+    double expectedX = -186'240.0;
+    double expectedY = 64999673.68;
 
-    double expectedVelocityY = physics.computeVelocity(0.0, physics.computeGravity(physics.heightAboveEarth(0, 0)), 1.0);
-    assert(physics.getVelocityY() == expectedVelocityY);
-    assert(physics.getVelocityX() == 0.0);
+    //exercise
+    gps->updatePosition(sim);
+    Position updatedPos = gps->getPosition();
+
+    //verify
+    assert(fabs(updatedPos.getMetersX() - expectedX) < EPSILON);
+    assert(fabs(updatedPos.getMetersY() - expectedY) < EPSILON);
+
+    //teardown
     delete gps;
 }
 
-void testSimulator::testNoMovement()
+void testSimulator::testGpsEdgePosXY()
 {
-    physics.setVelocityX(0.0);
-    physics.setVelocityY(0.0);
-    physics.setTimePerFrame(1.0);
-    GPS* gps = GPS::create(Position(50, 50));
-    gps->updatePosition(simulator);
-    simulator.simulation(*gps);
+    //setup
+    GPS* gps = GPS::create(pos, -60'000'000.0, 60'000'000.0, -3880.0, 0.0);
+    double expectedX = -60186104.6;
+    double expectedY = 59999864.6;
 
-    Position newPos = gps->getPosition();
-    assert(newPos.getMetersX() == 50.0);
-    assert(newPos.getMetersY() == 50.0);
-    delete gps;
-}
+    //exercise
+    gps->updatePosition(sim);
+    Position updatedPos = gps->getPosition();
 
-void testSimulator::testDecelerationToStop()
-{
-    physics.setVelocityX(10.0);
-    physics.setVelocityY(0.0);
-    physics.setTimePerFrame(1.0);
-    GPS* gps = GPS::create(Position(0, 0));
-    gps->updatePosition(simulator);
-    simulator.simulation(*gps);
+    //verify
+    assert(fabs(updatedPos.getMetersX() - expectedX) < EPSILON);
+    assert(fabs(updatedPos.getMetersY() - expectedY) < EPSILON);
 
-    double expectedVelocityX = physics.computeVelocity(10.0, -10.0, 1.0);
-    assert(physics.getVelocityX() == expectedVelocityX);
-    assert(physics.getVelocityY() == 0.0);
-    delete gps;
-}
-
-void testSimulator::testPositionChangeWithTimeAndAccel()
-{
-    physics.setVelocityX(0.0);
-    physics.setVelocityY(0.0);
-    physics.setTimePerFrame(2.0);
-    GPS* gps = GPS::create(Position(0, 0));
-    gps->updatePosition(simulator);
-    simulator.simulation(*gps);
-
-    Position newPos = gps->getPosition();
-    double expectedPosY = physics.computeDistance(0, 0, 2.0, physics.computeGravity(physics.heightAboveEarth(0, 0)));
-    assert(newPos.getMetersY() == expectedPosY);
-    assert(newPos.getMetersX() == 0.0);
+    //teardown
     delete gps;
 }

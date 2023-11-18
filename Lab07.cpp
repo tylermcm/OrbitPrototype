@@ -30,7 +30,7 @@ class Demo
 public:
 	Demo(Position ptUpperRight) :
 		ptUpperRight(ptUpperRight)
-		//satellite(ptUpperRight)
+		
 	{
 		angleShip = 4.71239;
 		angleEarth = 0.0;
@@ -38,11 +38,11 @@ public:
 
 	Position ptGPS;
 	Position ptUpperRight;
-	Satellite* GPS = GPS::create(ptUpperRight);
-	Satellite* Hubble = Hubble::create(ptUpperRight);
-	Satellite* Sputnik = Sputnik::create(ptUpperRight);
-	Satellite* Starlink = Starlink::create(ptUpperRight);
-	Satellite* Dragon = Dragon::create(ptUpperRight);
+	Satellite* GPS = GPS::create(ptUpperRight, 0.0, 26'560'000.0, -3880.0, 0.0);
+	Satellite* Hubble = Hubble::create(ptUpperRight, 0.0, -42'164'000.0, 3100.0, 0.0);
+	Satellite* Sputnik = Sputnik::create(ptUpperRight, -36'515'095.13, 21'082'000.0, 2050.0, 2684.68 );
+	Satellite* Starlink = Starlink::create(ptUpperRight, 0.0, -13'020'000.0, 5800.0, 0.0);
+	Satellite* Dragon = Dragon::create(ptUpperRight, 0.0, 8'000'000, -7900.0, 0.0);
 	Physics physics;
 	Simulator sim;
 	double angleShip;
@@ -68,10 +68,11 @@ void callBack(const Interface* pUI, void* p)
 	pDemo->angleEarth += pDemo->physics.getRotationSpeed();
     pDemo->angleShip += pDemo->physics.getRotationSpeed();
 	pDemo->GPS->updatePosition(pDemo->sim);
-	//pDemo->Hubble->updatePosition(pDemo->sim);
-	//pDemo->Sputnik->updatePosition(pDemo->sim);
-	//pDemo->Starlink->updatePosition(pDemo->sim);
-	//pDemo->Dragon->updatePosition(pDemo->sim);
+	pDemo->Hubble->updatePosition(pDemo->sim);
+	pDemo->Sputnik->updatePosition(pDemo->sim);
+	pDemo->Starlink->updatePosition(pDemo->sim);
+	pDemo->Dragon->updatePosition(pDemo->sim);
+	
 
 
 	//
@@ -81,12 +82,11 @@ void callBack(const Interface* pUI, void* p)
 	Position pt;
 	ogstream gout(pt);
 
-	//gout.drawGPS       (pDemo->satellite.getPosition(),        pDemo->angleShip);
 	pDemo->GPS->draw(gout, pDemo->angleShip);
-	//pDemo->Hubble->draw(gout, pDemo->angleShip);
-	//pDemo->Sputnik->draw(gout, pDemo->angleShip);
-	//pDemo->Starlink->draw(gout, pDemo->angleShip);
-	//pDemo->Dragon->draw(gout, pDemo->angleShip);
+	pDemo->Hubble->draw(gout, pDemo->angleShip);
+	pDemo->Sputnik->draw(gout, pDemo->angleShip);
+	pDemo->Starlink->draw(gout, pDemo->angleShip);
+	pDemo->Dragon->draw(gout, pDemo->angleShip);
 
 
 

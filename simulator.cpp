@@ -4,6 +4,7 @@
 
 void Simulator::simulation(Element& element)
 {
+    Physics& physics = element.getPhysics();
     Position pos = element.getPosition();
 
     // Calculate gravitational acceleration at the element's current position.

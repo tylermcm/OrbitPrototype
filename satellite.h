@@ -1,4 +1,6 @@
 #pragma once
+#include <vector>
+
 #include "element.h"
 #include "simulator.h"
 #include "uiDraw.h"
@@ -17,6 +19,12 @@ public:
 
 	virtual void draw(ogstream& gout, double angle) = 0;
 
+	virtual void setInitialVelocity(double velX, double velY)
+	{
+		physics.setVelocityX(velX);
+		physics.setVelocityY(velY);
+	}
+
 	static Position randomizePosition(const Position& ptUpperRight, double x, double y)
 	{
 		Position initialPos;
@@ -33,14 +41,13 @@ class GPS : public Satellite
 public:
 	GPS(const Position& position) : Satellite(position) {}
 
-	static GPS* create(const Position& position) {
-		return new GPS(position);
+	static GPS* create(const Position& ptUpperRight, double posX, double posY, double velX, double velY)
+	{
+		GPS* newGPS = new GPS(randomizePosition(ptUpperRight, posX, posY));
+		newGPS->setInitialVelocity(velX, velY);
+		return newGPS;
 	}
 
-	static GPS* createRandomized(const Position& ptUpperRight)
-	{
-		return new GPS(randomizePosition(ptUpperRight, 0.0, 42164000));
-	}
 
 	void draw(ogstream& gout, double angle) override
 	{
@@ -48,13 +55,17 @@ public:
 	}
 };
 
+
+
 class Sputnik : public Satellite
 {
 public:
 	Sputnik(const Position& position) : Satellite(position) {}
-	static Sputnik* create(const Position& ptUpperRight)
+	static Sputnik* create(const Position& ptUpperRight, double posX, double posY, double velX, double velY)
 	{
-		return new Sputnik(randomizePosition(ptUpperRight, 36515095.13, 21082000.0));
+		Sputnik* newSputnik = new Sputnik(randomizePosition(ptUpperRight, posX, posY));
+		newSputnik->setInitialVelocity(velX, velY);
+		return newSputnik;
 	}
 
 	void draw(ogstream& gout, double angle) override
@@ -67,9 +78,11 @@ class Hubble : public Satellite
 {
 public:
 	Hubble(const Position& position) : Satellite(position) {}
-	static Hubble* create(const Position& ptUpperRight)
+	static Hubble* create(const Position& ptUpperRight, double posX, double posY, double velX, double velY)
 	{
-		return new Hubble(randomizePosition(ptUpperRight, 0.0, 42164000));
+		Hubble* newHubble = new Hubble(randomizePosition(ptUpperRight, posX, posY));
+		newHubble->setInitialVelocity(velX, velY);
+		return newHubble;
 	}
 
 	void draw(ogstream& gout, double angle) override
@@ -83,9 +96,11 @@ class Starlink : public Satellite
 {
 public:
 	Starlink(const Position& position) : Satellite(position) {}
-	static Starlink* create(const Position& ptUpperRight)
+	static Starlink* create(const Position& ptUpperRight, double posX, double posY, double velX, double velY)
 	{
-		return new Starlink(randomizePosition(ptUpperRight, 0.0, 13020000));
+		Starlink* newStarlink = new Starlink(randomizePosition(ptUpperRight, posX, posY));
+		newStarlink->setInitialVelocity(velX, velY);
+		return newStarlink;
 	}
 
 	void draw(ogstream& gout, double angle) override
@@ -99,9 +114,11 @@ class Dragon : public Satellite
 {
 public:
 	Dragon(const Position& position) : Satellite(position) {}
-	static Dragon* create(const Position& ptUpperRight)
+	static Dragon* create(const Position& ptUpperRight, double posX, double posY, double velX, double velY)
 	{
-		return new Dragon(randomizePosition(ptUpperRight, 0.0, 8000000));
+		Dragon* newDragon = new Dragon(randomizePosition(ptUpperRight, posX, posY));
+		newDragon->setInitialVelocity(velX, velY);
+		return newDragon;
 	}
 
 	void draw(ogstream& gout, double angle) override

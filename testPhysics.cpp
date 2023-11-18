@@ -68,19 +68,19 @@ void PhysicsTest::compute_g_normal()
 	//exercise
 	result = physics.computeGravity(height);
 	//verify
-	assert(result == expected);
+	assert(fabs(result - expected) < EPSILON);
 }
 
 void PhysicsTest::h_above_earth_normal()
 {
 	//setup
-	double x = 1546345;
-	double y = 345323;
-	double expected = 1584431.903;
+	double x = 1546345.0;
+	double y = 345232.0;
+	double expected = -4793585.915;
 	//exercise
 	result = physics.heightAboveEarth(x, y);
 	//verify
-	assert(result == expected);
+	assert(fabs(result - expected) < EPSILON);
 }
 
 void PhysicsTest::direction_g_normal()
@@ -88,11 +88,11 @@ void PhysicsTest::direction_g_normal()
 	//setup
 	double xs = 3465326;
 	double ys =-23462;
-	double expected = 3.134822;
+	double expected = -1.56402;
 	//exercise
 	result = physics.directionOfGravityPull(xs, ys);
 	//verify
-	assert(result == expected);
+	assert(fabs(result - expected) < EPSILON);
 }
 
 void PhysicsTest::compute_h_component_positive()
@@ -100,11 +100,11 @@ void PhysicsTest::compute_h_component_positive()
 	//setup
 	double a = 32;
 	double angle = 1.23;
-	double expected = 0.737161862;
+	double expected = 30.15964;
 	//exercise
 	result = physics.computeHorizontalComponent(a, angle);
 	//verify
-	assert(result == expected);
+	assert(fabs(result - expected) < EPSILON);
 }
 
 void PhysicsTest::compute_h_component_negative()
@@ -112,11 +112,11 @@ void PhysicsTest::compute_h_component_negative()
 	//setup
 	double a = -32;
 	double angle = 1.23;
-	double expected = -0.737161862;
+	double expected = -30.15964;
 	//exercise
 	result = physics.computeHorizontalComponent(a, angle);
 	//verify
-	assert(result == expected);
+	assert(fabs(result - expected) < EPSILON);
 }
 
 void PhysicsTest::compute_v_component_positive()
@@ -124,11 +124,11 @@ void PhysicsTest::compute_v_component_positive()
 	//setup
 	double a = 32;
 	double angle = 1.23;
-	double expected = 31.99150813;
+	double expected = 10.69560;
 	//exercise
 	result = physics.computeVerticalComponent(a, angle);
 	//verify
-	assert(result == expected);
+	assert(fabs(result - expected) < EPSILON);
 }
 
 void PhysicsTest::compute_v_component_negative()
@@ -136,11 +136,11 @@ void PhysicsTest::compute_v_component_negative()
 	//setup
 	double a = -32;
 	double angle = 1.23;
-	double expected = -31.99150813;
+	double expected = -10.69560;
 	//exercise
 	result = physics.computeVerticalComponent(a, angle);
 	//verify
-	assert(result == expected);
+	assert(fabs(result - expected) < EPSILON);
 }
 
 void PhysicsTest::new_position_normal()
@@ -151,7 +151,7 @@ void PhysicsTest::new_position_normal()
 	//exercise
 	result = physics.newPosition(new_pos);
 	//verify
-	assert(result == expected);
+	assert(fabs(result - expected) < EPSILON);
 }
 
 void PhysicsTest::compute_motion_normal()
@@ -164,7 +164,7 @@ void PhysicsTest::compute_motion_normal()
 	//exercise
 	result = physics.computeMotion(s0, v, t);
 	//verify
-	assert(result == expected);
+	assert(fabs(result - expected) < EPSILON);
 }
 
 void PhysicsTest::compute_h_pos_normal()
@@ -177,7 +177,7 @@ void PhysicsTest::compute_h_pos_normal()
 	//exercise
 	result = physics.computeHorizontalPosition(x0, dx, t);
 	//verify
-	assert(result == expected);
+	assert(fabs(result - expected) < EPSILON);
 }
 
 void PhysicsTest::compute_v_pos_normal()
@@ -190,7 +190,7 @@ void PhysicsTest::compute_v_pos_normal()
 	//exercise
 	result = physics.computeVerticalPosition(y0, dy, t);
 	//verify
-	assert(result == expected);
+	assert(fabs(result - expected) < EPSILON);
 }
 
 void PhysicsTest::compute_distance_normal()
@@ -204,7 +204,7 @@ void PhysicsTest::compute_distance_normal()
 	//exercise
 	result = physics.computeDistance(s0, v, t, a);
 	//verify
-	assert(result == expected);
+	assert(fabs(result - expected) < EPSILON);
 }
 
 
@@ -218,5 +218,5 @@ void PhysicsTest::compute_v_normal()
 	//exercise
 	result = physics.computeVelocity(v0, a, t);
 	//verify
-	assert(result == expected);
+	assert(fabs(result - expected) < EPSILON);
 }

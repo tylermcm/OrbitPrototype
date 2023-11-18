@@ -1,39 +1,54 @@
 #pragma once
 #include "position.h"
 #include "simulator.h"
-#include "physics.h"
 class testSimulator
 {
 public:
 	void run()
 	{
-        testInitialConditions();
-        //testGpsStationary();
-        //testTimePerFrameEffect();
-        testIntegrationWithPhysics();
-        //testPositiveVelocity();
-        //testNegativeVelocity();
-        //testAccelerationEffectOnVelocity();
-        //testNoMovement();
-        //testDecelerationToStop();
-        //testPositionChangeWithTimeAndAccel();
+		testGpsStartPosition();
+		testGpsUpdatedPosition();
+		testGpsPositiveXVelocity();
+		testGpsPositiveYVelocity();
+		testGpsNegativeYVelocity();
+		testGpsNoVelocity();
+		testGpsEdgeXVelocity();
+		testGpsEdgeYVelocity();
+		testGpsEdgePosY();
+		testGpsEdgePosXY();
 	}
 
 private:
-    Position ptUpperRight;
-    Simulator simulator;
-    Physics physics;
+	Simulator sim;
+	Position pos;
+	const double EPSILON = 0.01;
 
-    void testInitialConditions();
-    void testGpsStationary();
-    void testTimePerFrameEffect();
-    void testIntegrationWithPhysics();
-    void testPositiveVelocity();
-    void testNegativeVelocity();
-    void testAccelerationEffectOnVelocity();
-    void testNoMovement();
-    void testDecelerationToStop();
-    void testPositionChangeWithTimeAndAccel();
-
+	void testGpsStartPosition();
+	void testGpsUpdatedPosition();
+	void testGpsPositiveXVelocity();
+	void testGpsNegativeYVelocity();
+	void testGpsPositiveYVelocity();
+	void testGpsNoVelocity();
+	void testGpsEdgeXVelocity();
+	void testGpsEdgeYVelocity();
+	void testGpsEdgePosY();
+	void testGpsEdgePosXY();
+	
 };
 
+
+
+
+
+
+
+//void testInitialConditions();
+//void testGpsStationary();
+//void testTimePerFrameEffect();
+//void testIntegrationWithPhysics();
+//void testPositiveVelocity();
+//void testNegativeVelocity();
+//void testVelocityEffectOnVelocity();
+//void testNoMovement();
+//void testDecelerationToStop();
+//void testPositionChangeWithTimeAndAccel();

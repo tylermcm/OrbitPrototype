@@ -1,5 +1,6 @@
 #pragma once
 #include "position.h"
+#include "physics.h"
 
 class Simulator;
 
@@ -13,8 +14,10 @@ public:
 
 	Position getPosition() const { return position; }
 	void setPosition(const Position& newPosition) { position = newPosition; }
+	Physics& getPhysics() { return physics; }
 
 protected:
 	Position position;
+	Physics physics;
 };
 
