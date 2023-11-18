@@ -11,6 +11,7 @@
 #include "testPhysics.h"
 #include <cassert>        // for ASSERT
 #include <iostream>
+using namespace std;
 
 void PhysicsTest::get_vx_positive()
 {
@@ -22,6 +23,12 @@ void PhysicsTest::get_vx_positive()
 	test_vx = physics.getVelocityX();
 	//verify
 	assert(vx == test_vx);
+
+	cout.setf(ios::left);
+	cout.width(50);
+	cout << "get_vx_positive";
+	cout.width(10);
+	cout << "passed" << endl;
 }
 
 void PhysicsTest::get_vx_negative()
@@ -34,6 +41,12 @@ void PhysicsTest::get_vx_negative()
 	test_vx = physics.getVelocityX();
 	//verify
 	assert(vx == test_vx);
+
+	cout.setf(ios::left);
+	cout.width(50);
+	cout << "get_vx_negative";
+	cout.width(10);
+	cout << "passed" << endl;
 }
 
 void PhysicsTest::get_vy_positive()
@@ -46,6 +59,12 @@ void PhysicsTest::get_vy_positive()
 	test_vy = physics.getVelocityX();
 	//verify
 	assert(vy == test_vy);
+
+	cout.setf(ios::left);
+	cout.width(50);
+	cout << "get_vy_positive";
+	cout.width(10);
+	cout << "passed" << endl;
 }
 
 void PhysicsTest::get_vy_negative()
@@ -58,6 +77,12 @@ void PhysicsTest::get_vy_negative()
 	test_vy = physics.getVelocityX();
 	//verify
 	assert(vy == test_vy);
+
+	cout.setf(ios::left);
+	cout.width(50);
+	cout << "get_vy_negative";
+	cout.width(10);
+	cout << "passed" << endl;
 }
 
 void PhysicsTest::compute_g_normal()
@@ -69,6 +94,12 @@ void PhysicsTest::compute_g_normal()
 	result = physics.computeGravity(height);
 	//verify
 	assert(fabs(result - expected) < EPSILON);
+
+	cout.setf(ios::left);
+	cout.width(50);
+	cout << "compute_g_normal";
+	cout.width(10);
+	cout << "passed" << endl;
 }
 
 void PhysicsTest::h_above_earth_normal()
@@ -81,6 +112,12 @@ void PhysicsTest::h_above_earth_normal()
 	result = physics.heightAboveEarth(x, y);
 	//verify
 	assert(fabs(result - expected) < EPSILON);
+
+	cout.setf(ios::left);
+	cout.width(50);
+	cout << "h_above_earth_normal";
+	cout.width(10);
+	cout << "passed" << endl;
 }
 
 void PhysicsTest::direction_g_normal()
@@ -93,6 +130,12 @@ void PhysicsTest::direction_g_normal()
 	result = physics.directionOfGravityPull(xs, ys);
 	//verify
 	assert(fabs(result - expected) < EPSILON);
+
+	cout.setf(ios::left);
+	cout.width(50);
+	cout << "direction_g_normal";
+	cout.width(10);
+	cout << "passed" << endl;
 }
 
 void PhysicsTest::compute_h_component_positive()
@@ -105,6 +148,12 @@ void PhysicsTest::compute_h_component_positive()
 	result = physics.computeHorizontalComponent(a, angle);
 	//verify
 	assert(fabs(result - expected) < EPSILON);
+
+	cout.setf(ios::left);
+	cout.width(50);
+	cout << "compute_h_component_positive";
+	cout.width(10);
+	cout << "passed" << endl;
 }
 
 void PhysicsTest::compute_h_component_negative()
@@ -117,6 +166,12 @@ void PhysicsTest::compute_h_component_negative()
 	result = physics.computeHorizontalComponent(a, angle);
 	//verify
 	assert(fabs(result - expected) < EPSILON);
+
+	cout.setf(ios::left);
+	cout.width(50);
+	cout << "compute_h_component_negative";
+	cout.width(10);
+	cout << "passed" << endl;
 }
 
 void PhysicsTest::compute_v_component_positive()
@@ -129,6 +184,12 @@ void PhysicsTest::compute_v_component_positive()
 	result = physics.computeVerticalComponent(a, angle);
 	//verify
 	assert(fabs(result - expected) < EPSILON);
+
+	cout.setf(ios::left);
+	cout.width(50);
+	cout << "compute_v_component_positive";
+	cout.width(10);
+	cout << "passed" << endl;
 }
 
 void PhysicsTest::compute_v_component_negative()
@@ -141,6 +202,12 @@ void PhysicsTest::compute_v_component_negative()
 	result = physics.computeVerticalComponent(a, angle);
 	//verify
 	assert(fabs(result - expected) < EPSILON);
+
+	cout.setf(ios::left);
+	cout.width(50);
+	cout << "compute_v_component_negative";
+	cout.width(10);
+	cout << "passed" << endl;
 }
 
 void PhysicsTest::new_position_normal()
@@ -152,6 +219,12 @@ void PhysicsTest::new_position_normal()
 	result = physics.newPosition(new_pos);
 	//verify
 	assert(fabs(result - expected) < EPSILON);
+
+	cout.setf(ios::left);
+	cout.width(50);
+	cout << "new_position_normal";
+	cout.width(10);
+	cout << "passed" << endl;
 }
 
 void PhysicsTest::compute_motion_normal()
@@ -165,6 +238,12 @@ void PhysicsTest::compute_motion_normal()
 	result = physics.computeMotion(s0, v, t);
 	//verify
 	assert(fabs(result - expected) < EPSILON);
+
+	cout.setf(ios::left);
+	cout.width(50);
+	cout << "compute_motion_normal";
+	cout.width(10);
+	cout << "passed" << endl;
 }
 
 void PhysicsTest::compute_h_pos_normal()
@@ -178,6 +257,12 @@ void PhysicsTest::compute_h_pos_normal()
 	result = physics.computeHorizontalPosition(x0, dx, t);
 	//verify
 	assert(fabs(result - expected) < EPSILON);
+
+	cout.setf(ios::left);
+	cout.width(50);
+	cout << "compute_h_pos_normal";
+	cout.width(10);
+	cout << "passed" << endl;
 }
 
 void PhysicsTest::compute_v_pos_normal()
@@ -191,6 +276,12 @@ void PhysicsTest::compute_v_pos_normal()
 	result = physics.computeVerticalPosition(y0, dy, t);
 	//verify
 	assert(fabs(result - expected) < EPSILON);
+
+	cout.setf(ios::left);
+	cout.width(50);
+	cout << "compute_v_pos_normal";
+	cout.width(10);
+	cout << "passed" << endl;
 }
 
 void PhysicsTest::compute_distance_normal()
@@ -205,6 +296,12 @@ void PhysicsTest::compute_distance_normal()
 	result = physics.computeDistance(s0, v, t, a);
 	//verify
 	assert(fabs(result - expected) < EPSILON);
+
+	cout.setf(ios::left);
+	cout.width(50);
+	cout << "compute_distance_normal";
+	cout.width(10);
+	cout << "passed" << endl;
 }
 
 
@@ -219,4 +316,10 @@ void PhysicsTest::compute_v_normal()
 	result = physics.computeVelocity(v0, a, t);
 	//verify
 	assert(fabs(result - expected) < EPSILON);
+
+	cout.setf(ios::left);
+	cout.width(50);
+	cout << "compute_v_normal";
+	cout.width(10);
+	cout << "passed" << endl;
 }

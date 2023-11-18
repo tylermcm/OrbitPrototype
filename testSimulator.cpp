@@ -1,7 +1,18 @@
+/***********************************************************************
+ * Source File:
+ *    Simulator Test : Unit tests for Simulator class
+ * Author:
+ *    Tyler McMurtrey
+ * Summary:
+ *    The unit tests for the Simulator class
+ ************************************************************************/
+
+
 #include <cassert>
 #include <cmath>
 #include "testSimulator.h"
 #include "satellite.h"
+using namespace std;
 
 void testSimulator::testGpsStartPosition()
 {
@@ -18,6 +29,12 @@ void testSimulator::testGpsStartPosition()
 
 	//teardown
 	delete gps;
+
+    cout.setf(ios::left);
+    cout.width(50);
+    cout << "testGpsStartPosition";
+    cout.width(10);
+	cout << "passed" << endl;
 }
 
 void testSimulator::testGpsUpdatedPosition()
@@ -37,6 +54,12 @@ void testSimulator::testGpsUpdatedPosition()
 
 	//teardown
 	delete gps;
+
+    cout.setf(ios::left);
+    cout.width(50);
+    cout << "testGpsUpdatedPosition";
+    cout.width(10);
+    cout << "passed" << endl;
 }
 
 void testSimulator::testGpsPositiveXVelocity()
@@ -56,6 +79,12 @@ void testSimulator::testGpsPositiveXVelocity()
 
     //teardown
     delete gps;
+
+    cout.setf(ios::left);
+    cout.width(50);
+    cout << "testGpsPositiveXVelocity";
+    cout.width(10);
+    cout << "passed" << endl;
 }
 
 void testSimulator::testGpsPositiveYVelocity()
@@ -75,6 +104,12 @@ void testSimulator::testGpsPositiveYVelocity()
 
     //teardown
     delete gps;
+
+    cout.setf(ios::left);
+    cout.width(50);
+    cout << "testGpsPositiveYVelocity";
+    cout.width(10);
+    cout << "passed" << endl;
 }
 
 void testSimulator::testGpsNegativeYVelocity()
@@ -94,6 +129,12 @@ void testSimulator::testGpsNegativeYVelocity()
 
     //teardown
     delete gps;
+
+    cout.setf(ios::left);
+    cout.width(50);
+    cout << "testGpsNegativeYVelocity";
+    cout.width(10);
+    cout << "passed" << endl;
 }
 
 void testSimulator::testGpsNoVelocity()
@@ -113,6 +154,12 @@ void testSimulator::testGpsNoVelocity()
 
     //teardown
     delete gps;
+
+    cout.setf(ios::left);
+    cout.width(50);
+    cout << "testGpsNoVelocity";
+    cout.width(10);
+    cout << "passed" << endl;
 }
 
 void testSimulator::testGpsEdgeXVelocity()
@@ -132,6 +179,12 @@ void testSimulator::testGpsEdgeXVelocity()
 
     //teardown
     delete gps;
+
+    cout.setf(ios::left);
+    cout.width(50);
+    cout << "testGpsEdgeXVelocity";
+    cout.width(10);
+    cout << "passed" << endl;
 }
 
 void testSimulator::testGpsEdgeYVelocity()
@@ -151,6 +204,12 @@ void testSimulator::testGpsEdgeYVelocity()
 
     //teardown
     delete gps;
+
+    cout.setf(ios::left);
+    cout.width(50);
+    cout << "testGpsEdgeYVelocity";
+    cout.width(10);
+    cout << "passed" << endl;
 }
 
 void testSimulator::testGpsEdgePosY()
@@ -170,6 +229,12 @@ void testSimulator::testGpsEdgePosY()
 
     //teardown
     delete gps;
+
+    cout.setf(ios::left);
+    cout.width(50);
+    cout << "testGpsEdgePosY";
+    cout.width(10);
+    cout << "passed" << endl;
 }
 
 void testSimulator::testGpsEdgePosXY()
@@ -189,4 +254,10 @@ void testSimulator::testGpsEdgePosXY()
 
     //teardown
     delete gps;
+
+    cout.setf(ios::left);
+    cout.width(50);
+    cout << "testGpsEdgePosXY";
+    cout.width(10);
+    cout << "passed" << endl;
 }

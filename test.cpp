@@ -18,11 +18,19 @@
  ****************************************************************/
 void testRunner()
 {
-	cout << "Running position tests\n";
+	cout << "--------------------------------------------------------";
+	cout << "\n\t\tRunning position tests" << endl;
+	cout << "--------------------------------------------------------" << endl;
 	TestPosition().run();
-	cout << "Running physics tests\n";
+
+	cout << "--------------------------------------------------------";
+	cout << "\n\t\tRunning physics tests" << endl;
+	cout << "--------------------------------------------------------" << endl;
     PhysicsTest().run();
-	cout << "Running simulator tests\n";
+
+	cout << "--------------------------------------------------------";
+	cout << "\n\t\tRunning simulator tests" << endl;
+	cout << "--------------------------------------------------------" << endl;
 	testSimulator().run();
 
 	cout << "All tests passed";
