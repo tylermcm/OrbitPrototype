@@ -16,8 +16,8 @@
 #include "position.h"      // for POINT
 #include "physics.h"
 #include "simulator.h"
-#include "element.h"
 #include "satellite.h"
+#include "player.h"
 #include "test.h"
 using namespace std;
 
@@ -43,6 +43,7 @@ public:
 	Satellite* Sputnik = Sputnik::create(ptUpperRight, -36'515'095.13, 21'082'000.0, 2050.0, 2684.68 );
 	Satellite* Starlink = Starlink::create(ptUpperRight, 0.0, -13'020'000.0, 5800.0, 0.0);
 	Satellite* Dragon = Dragon::create(ptUpperRight, 0.0, 8'000'000, -7900.0, 0.0);
+	Player* Player = Player::create(0.0, 45'500'000.0, 0.0, -2000.0);
 	Physics physics;
 	Simulator sim;
 	double angleShip;
@@ -62,7 +63,7 @@ void callBack(const Interface* pUI, void* p)
 	// is the first step of every single callback function in OpenGL. 
 	Demo* pDemo = (Demo*)p;
 
-
+	pDemo->Player->handleInput(pUI);
 
 	// rotate the earth
 	pDemo->angleEarth += pDemo->physics.getRotationSpeed();
@@ -72,6 +73,7 @@ void callBack(const Interface* pUI, void* p)
 	pDemo->Sputnik->updatePosition(pDemo->sim);
 	pDemo->Starlink->updatePosition(pDemo->sim);
 	pDemo->Dragon->updatePosition(pDemo->sim);
+	pDemo->Player->updatePosition(pDemo->sim);
 	
 
 
@@ -81,12 +83,12 @@ void callBack(const Interface* pUI, void* p)
 
 	Position pt;
 	ogstream gout(pt);
-
 	pDemo->GPS->draw(gout, pDemo->angleShip);
 	pDemo->Hubble->draw(gout, pDemo->angleShip);
 	pDemo->Sputnik->draw(gout, pDemo->angleShip);
 	pDemo->Starlink->draw(gout, pDemo->angleShip);
 	pDemo->Dragon->draw(gout, pDemo->angleShip);
+	pDemo->Player->draw(gout, pUI, pDemo->angleShip);
 
 
 

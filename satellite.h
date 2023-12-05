@@ -19,20 +19,6 @@ public:
 
 	virtual void draw(ogstream& gout, double angle) = 0;
 
-	virtual void setInitialVelocity(double velX, double velY)
-	{
-		physics.setVelocityX(velX);
-		physics.setVelocityY(velY);
-	}
-
-	static Position randomizePosition(const Position& ptUpperRight, double x, double y)
-	{
-		Position initialPos;
-		initialPos.setPixelsX(ptUpperRight.getPixelsX() * random(-0.5, 0.5));
-		initialPos.setPixelsY(ptUpperRight.getPixelsY() * random(-0.5, 0.5));
-		initialPos.setMeters(x, y);
-		return initialPos;
-	}
 };
 
 
