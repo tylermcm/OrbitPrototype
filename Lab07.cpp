@@ -28,27 +28,33 @@ using namespace std;
 class Demo
 {
 public:
-	Demo(Position ptUpperRight) :
-		ptUpperRight(ptUpperRight)
-		
-	{
-		angleShip = 4.71239;
-		angleEarth = 0.0;
+	Demo(Position ptUpperRight) : ptUpperRight(ptUpperRight), angleShip(4.71239), angleEarth(0.0) {
+		// TODO We will eventually need to implement the other array of GPS we defined in satellite.cpp
+		satellites.push_back(GPS::create(ptUpperRight, 0.0, 26'560'000.0, -3880.0, 0.0, 0.0));
+		satellites.push_back(Hubble::create(ptUpperRight, 0.0, -42'164'000.0, 3100.0, 0.0, 0.0));
+		satellites.push_back(Sputnik::create(ptUpperRight, -36'515'095.13, 21'082'000.0, 2050.0, 2684.68, 0.0));
+		satellites.push_back(Starlink::create(ptUpperRight, 0.0, -13'020'000.0, 5800.0, 0.0, 0.0));
+		satellites.push_back(Dragon::create(ptUpperRight, 0.0, 8'000'000.0, -7900.0, 0.0, 0.0));
+
+		Player = Player::create(0.0, 45'500'000.0, 0.0, -2000.0, 0.0);
+
 	}
+
 
 	Position ptGPS;
 	Position ptUpperRight;
-	Satellite* GPS = GPS::create(ptUpperRight, 0.0, 26'560'000.0, -3880.0, 0.0, 0.0);
-	Satellite* Hubble = Hubble::create(ptUpperRight, 0.0, -42'164'000.0, 3100.0, 0.0, 0.0);
-	Satellite* Sputnik = Sputnik::create(ptUpperRight, -36'515'095.13, 21'082'000.0, 2050.0, 2684.68, 0.0);
-	Satellite* Starlink = Starlink::create(ptUpperRight, 0.0, -13'020'000.0, 5800.0, 0.0, 0.0);
-	Satellite* Dragon = Dragon::create(ptUpperRight, 0.0, 8'000'000, -7900.0, 0.0, 0.0);
-	Player* Player = Player::create(0.0, 45'500'000.0, 0.0, -2000.0, 0.0);
+	Player* Player;
 	Physics physics;
 	Simulator sim;
 	double angleShip;
 	double angleEarth;
+	std::vector<Satellite*> satellites;
 };
+
+
+//I added all of the satellites to a vector which will make the collision detection easier.The code
+//for that was provided in the lab video, so implementation should be straightforward.
+
 
 /*************************************
  * All the interesting work happens here, when
@@ -59,44 +65,34 @@ public:
  **************************************/
 void callBack(const Interface* pUI, void* p)
 {
-	// the first step is to cast the void pointer into a game object. This
-	// is the first step of every single callback function in OpenGL. 
+	// Cast the void pointer into a Demo object
 	Demo* pDemo = (Demo*)p;
 
+	// Set up the drawing stream
 	Position pt;
 	ogstream gout(pt);
 
+	// Handle player input and update player position
 	pDemo->Player->handleInput(pUI);
-
-	// rotate the earth
-	pDemo->angleEarth += pDemo->physics.getRotationSpeed();
-    pDemo->angleShip += pDemo->physics.getRotationSpeed();
-	pDemo->GPS->updatePosition(pDemo->sim);
-	pDemo->Hubble->updatePosition(pDemo->sim);
-	pDemo->Sputnik->updatePosition(pDemo->sim);
-	pDemo->Starlink->updatePosition(pDemo->sim);
-	pDemo->Dragon->updatePosition(pDemo->sim);
 	pDemo->Player->updatePosition(pDemo->sim);
-	
 
+	// Rotate the earth
+	pDemo->angleEarth += pDemo->physics.getRotationSpeed();
 
-	//
-	// draw everything
-	//
+	// Update and draw each satellite
+	for (auto satellite : pDemo->satellites) {
+		satellite->updatePosition(pDemo->sim);
+		satellite->draw(gout, satellite->getAngle());
+	}
 
-	pDemo->GPS->draw(gout, pDemo->GPS->getAngle());
-	pDemo->Hubble->draw(gout, pDemo->Hubble->getAngle());
-	pDemo->Sputnik->draw(gout, pDemo->Sputnik->getAngle());
-	pDemo->Starlink->draw(gout, pDemo->Starlink->getAngle());
-	pDemo->Dragon->draw(gout, pDemo->Dragon->getAngle());
+	// Draw the Player
 	pDemo->Player->draw(gout, pUI, pDemo->Player->getAngle());
 
-
-
-	// draw the earth
+	// Draw the earth
 	pt.setMeters(0.0, 0.0);
 	gout.drawEarth(pt, pDemo->angleEarth);
 }
+
 
 double Position::metersFromPixels = 40.0;
 
