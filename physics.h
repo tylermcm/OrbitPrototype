@@ -6,11 +6,15 @@
 class Physics
 {
 public:
+    double getDDX() const { return ddx; }
+    double getDDY() const { return ddy; }
     double getVelocityX()     const { return velocityX; }
     double getVelocityY()     const { return velocityY; }
     double getTimePerFrame()  const { return timePerFrame; }
     double getRotationSpeed() const { return rotationSpeed; }
 
+    void setDDX(double x) { ddx = x; }
+    void setDDY(double y) { ddy = y; }
     void setVelocityX(double velX) { velocityX = velX; }
     void setVelocityY(double velY) { velocityY = velY; }
     void setTimePerFrame(double time) { timePerFrame = time; }
@@ -29,6 +33,8 @@ public:
 
 
 private:
+    double ddx = 0.0;
+    double ddy = 0.0;
     double velocityX = 0.0;
     double velocityY = 0.0;
     double timeDilation = 24 * 60;

@@ -63,6 +63,9 @@ void callBack(const Interface* pUI, void* p)
 	// is the first step of every single callback function in OpenGL. 
 	Demo* pDemo = (Demo*)p;
 
+	Position pt;
+	ogstream gout(pt);
+
 	pDemo->Player->handleInput(pUI);
 
 	// rotate the earth
@@ -81,8 +84,6 @@ void callBack(const Interface* pUI, void* p)
 	// draw everything
 	//
 
-	Position pt;
-	ogstream gout(pt);
 	pDemo->GPS->draw(gout, pDemo->GPS->getAngle());
 	pDemo->Hubble->draw(gout, pDemo->Hubble->getAngle());
 	pDemo->Sputnik->draw(gout, pDemo->Sputnik->getAngle());

@@ -187,4 +187,5 @@ public:
 int    random(int    min, int    max);
 double random(double min, double max);
 
-
+// Declare rotate so it can be used by player class
+Position rotate(const Position& origin, double x, double y, double rotation);

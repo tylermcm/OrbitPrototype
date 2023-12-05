@@ -24,7 +24,6 @@ public:
     double getAngle() const { return angle; }
     Physics& getPhysics() { return physics; }
 
-    // New methods added for common functionality
     void setInitialVelocity(double velX, double velY)
     {
         physics.setVelocityX(velX);
