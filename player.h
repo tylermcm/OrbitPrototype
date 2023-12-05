@@ -7,12 +7,12 @@
 class Player : public Element
 {
 public:
-    Player(const Position& pos) : Element(pos) {}
+    Player(const Position& pos, double velX, double velY, double angle) : Element(pos, velX, velY, angle) {}
 
-    static Player* create(double posX, double posY, double velX, double velY)
+    static Player* create(double posX, double posY, double velX, double velY, double angle)
     {
         Position initialPos = setInitialPosition(posX, posY);
-        Player* newPlayer = new Player(initialPos);
+        Player* newPlayer = new Player(initialPos, velX, velY, angle);
         newPlayer->setInitialVelocity(velX, velY);
         return newPlayer;
     }
@@ -36,14 +36,12 @@ public:
 
     void handleInput(const Interface* pUI)
     {
-        if (pUI->isUp())
-            this->position.addPixelsY(1.0);
         if (pUI->isDown())
             this->position.addPixelsY(-1.0);
         if (pUI->isLeft())
-            this->position.addPixelsX(-1.0);
+            this->angle -= 0.1;
         if (pUI->isRight())
-            this->position.addPixelsX(1.0);
+            this->angle += 0.1;
     }
 
 };

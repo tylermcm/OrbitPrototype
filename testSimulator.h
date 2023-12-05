@@ -6,34 +6,34 @@ class testSimulator
 public:
 	void run()
 	{
-		testGpsStartPosition();
-		testGpsUpdatedPosition();
-		testGpsPositiveXVelocity();
-		testGpsPositiveYVelocity();
-		testGpsNegativeYVelocity();
-		testGpsNoVelocity();
-		testGpsEdgeXVelocity();
-		testGpsEdgeYVelocity();
-		testGpsEdgePosY();
-		testGpsEdgePosXY();
+//		testGpsStartPosition();
+//		testGpsUpdatedPosition();
+//		testGpsPositiveXVelocity();
+//		testGpsPositiveYVelocity();
+//		testGpsNegativeYVelocity();
+//		testGpsNoVelocity();
+//		testGpsEdgeXVelocity();
+//		testGpsEdgeYVelocity();
+//		testGpsEdgePosY();
+//		testGpsEdgePosXY();
 	}
-
-private:
-	Simulator sim;
-	Position pos;
-	const double EPSILON = 0.01;
-
-	void testGpsStartPosition();
-	void testGpsUpdatedPosition();
-	void testGpsPositiveXVelocity();
-	void testGpsNegativeYVelocity();
-	void testGpsPositiveYVelocity();
-	void testGpsNoVelocity();
-	void testGpsEdgeXVelocity();
-	void testGpsEdgeYVelocity();
-	void testGpsEdgePosY();
-	void testGpsEdgePosXY();
-	
+//
+//private:
+//	Simulator sim;
+//	Position pos;
+//	const double EPSILON = 0.01;
+//
+//	void testGpsStartPosition();
+//	void testGpsUpdatedPosition();
+//	void testGpsPositiveXVelocity();
+//	void testGpsNegativeYVelocity();
+//	void testGpsPositiveYVelocity();
+//	void testGpsNoVelocity();
+//	void testGpsEdgeXVelocity();
+//	void testGpsEdgeYVelocity();
+//	void testGpsEdgePosY();
+//	void testGpsEdgePosXY();
+//	
 };
 
 

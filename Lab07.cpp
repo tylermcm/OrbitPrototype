@@ -38,12 +38,12 @@ public:
 
 	Position ptGPS;
 	Position ptUpperRight;
-	Satellite* GPS = GPS::create(ptUpperRight, 0.0, 26'560'000.0, -3880.0, 0.0);
-	Satellite* Hubble = Hubble::create(ptUpperRight, 0.0, -42'164'000.0, 3100.0, 0.0);
-	Satellite* Sputnik = Sputnik::create(ptUpperRight, -36'515'095.13, 21'082'000.0, 2050.0, 2684.68 );
-	Satellite* Starlink = Starlink::create(ptUpperRight, 0.0, -13'020'000.0, 5800.0, 0.0);
-	Satellite* Dragon = Dragon::create(ptUpperRight, 0.0, 8'000'000, -7900.0, 0.0);
-	Player* Player = Player::create(0.0, 45'500'000.0, 0.0, -2000.0);
+	Satellite* GPS = GPS::create(ptUpperRight, 0.0, 26'560'000.0, -3880.0, 0.0, 0.0);
+	Satellite* Hubble = Hubble::create(ptUpperRight, 0.0, -42'164'000.0, 3100.0, 0.0, 0.0);
+	Satellite* Sputnik = Sputnik::create(ptUpperRight, -36'515'095.13, 21'082'000.0, 2050.0, 2684.68, 0.0);
+	Satellite* Starlink = Starlink::create(ptUpperRight, 0.0, -13'020'000.0, 5800.0, 0.0, 0.0);
+	Satellite* Dragon = Dragon::create(ptUpperRight, 0.0, 8'000'000, -7900.0, 0.0, 0.0);
+	Player* Player = Player::create(0.0, 45'500'000.0, 0.0, -2000.0, 0.0);
 	Physics physics;
 	Simulator sim;
 	double angleShip;
@@ -83,12 +83,12 @@ void callBack(const Interface* pUI, void* p)
 
 	Position pt;
 	ogstream gout(pt);
-	pDemo->GPS->draw(gout, pDemo->angleShip);
-	pDemo->Hubble->draw(gout, pDemo->angleShip);
-	pDemo->Sputnik->draw(gout, pDemo->angleShip);
-	pDemo->Starlink->draw(gout, pDemo->angleShip);
-	pDemo->Dragon->draw(gout, pDemo->angleShip);
-	pDemo->Player->draw(gout, pUI, pDemo->angleShip);
+	pDemo->GPS->draw(gout, pDemo->GPS->getAngle());
+	pDemo->Hubble->draw(gout, pDemo->Hubble->getAngle());
+	pDemo->Sputnik->draw(gout, pDemo->Sputnik->getAngle());
+	pDemo->Starlink->draw(gout, pDemo->Starlink->getAngle());
+	pDemo->Dragon->draw(gout, pDemo->Dragon->getAngle());
+	pDemo->Player->draw(gout, pUI, pDemo->Player->getAngle());
 
 
 

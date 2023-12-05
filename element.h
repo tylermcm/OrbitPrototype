@@ -8,13 +8,20 @@ class Simulator;
 class Element
 {
 public:
-    Element(const Position& pos) : position(pos) {}
+    Element(const Position& pos, double velX, double velY, double angle)
+    {
+        this->position = pos;
+        this->velX = velX;
+        this->velY = velY;
+        this->angle = angle;
+    }
 
     virtual ~Element() {}
     virtual void updatePosition(Simulator& sim) = 0;
 
     Position getPosition() const { return position; }
     void setPosition(const Position& newPosition) { position = newPosition; }
+    double getAngle() const { return angle; }
     Physics& getPhysics() { return physics; }
 
     // New methods added for common functionality
@@ -36,4 +43,7 @@ public:
 protected:
     Position position;
     Physics physics;
+    double velX;
+    double velY;
+    double angle;
 };

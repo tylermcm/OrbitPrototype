@@ -9,7 +9,7 @@
 class Satellite : public Element
 {
 public:
-	Satellite(const Position& position) : Element(position) {}
+	Satellite(const Position& pos, double velX, double velY, double angle) : Element(pos, velX, velY, angle) {}
 	static Satellite* create(const Position& ptUpperRight);
 
 	void updatePosition(Simulator& sim) override
@@ -25,11 +25,11 @@ public:
 class GPS : public Satellite
 {
 public:
-	GPS(const Position& position) : Satellite(position) {}
+	GPS(const Position& pos, double velX, double velY, double angle) : Satellite(pos, velX, velY, angle) {}
 
-	static GPS* create(const Position& ptUpperRight, double posX, double posY, double velX, double velY)
+	static GPS* create(const Position& ptUpperRight, double posX, double posY, double velX, double velY, double angle)
 	{
-		GPS* newGPS = new GPS(randomizePosition(ptUpperRight, posX, posY));
+		GPS* newGPS = new GPS(randomizePosition(ptUpperRight, posX, posY), velX, velY, angle);
 		newGPS->setInitialVelocity(velX, velY);
 		return newGPS;
 	}
@@ -46,10 +46,10 @@ public:
 class Sputnik : public Satellite
 {
 public:
-	Sputnik(const Position& position) : Satellite(position) {}
-	static Sputnik* create(const Position& ptUpperRight, double posX, double posY, double velX, double velY)
+	Sputnik(const Position& pos, double velX, double velY, double angle) : Satellite(pos, velX, velY, angle) {}
+	static Sputnik* create(const Position& ptUpperRight, double posX, double posY, double velX, double velY, double angle)
 	{
-		Sputnik* newSputnik = new Sputnik(randomizePosition(ptUpperRight, posX, posY));
+		Sputnik* newSputnik = new Sputnik(randomizePosition(ptUpperRight, posX, posY), velX, velY, angle);
 		newSputnik->setInitialVelocity(velX, velY);
 		return newSputnik;
 	}
@@ -63,10 +63,10 @@ public:
 class Hubble : public Satellite
 {
 public:
-	Hubble(const Position& position) : Satellite(position) {}
-	static Hubble* create(const Position& ptUpperRight, double posX, double posY, double velX, double velY)
+	Hubble(const Position& pos, double velX, double velY, double angle) : Satellite(pos, velX, velY, angle) {}
+	static Hubble* create(const Position& ptUpperRight, double posX, double posY, double velX, double velY, double angle)
 	{
-		Hubble* newHubble = new Hubble(randomizePosition(ptUpperRight, posX, posY));
+		Hubble* newHubble = new Hubble(randomizePosition(ptUpperRight, posX, posY), velX, velY, angle);
 		newHubble->setInitialVelocity(velX, velY);
 		return newHubble;
 	}
@@ -81,10 +81,10 @@ public:
 class Starlink : public Satellite
 {
 public:
-	Starlink(const Position& position) : Satellite(position) {}
-	static Starlink* create(const Position& ptUpperRight, double posX, double posY, double velX, double velY)
+	Starlink(const Position& pos, double velX, double velY, double angle) : Satellite(pos, velX, velY, angle) {}
+	static Starlink* create(const Position& ptUpperRight, double posX, double posY, double velX, double velY, double angle)
 	{
-		Starlink* newStarlink = new Starlink(randomizePosition(ptUpperRight, posX, posY));
+		Starlink* newStarlink = new Starlink(randomizePosition(ptUpperRight, posX, posY), velX, velY, angle);
 		newStarlink->setInitialVelocity(velX, velY);
 		return newStarlink;
 	}
@@ -99,10 +99,10 @@ public:
 class Dragon : public Satellite
 {
 public:
-	Dragon(const Position& position) : Satellite(position) {}
-	static Dragon* create(const Position& ptUpperRight, double posX, double posY, double velX, double velY)
+	Dragon(const Position& pos, double velX, double velY, double angle) : Satellite(pos, velX, velY, angle) {}
+	static Dragon* create(const Position& ptUpperRight, double posX, double posY, double velX, double velY, double angle)
 	{
-		Dragon* newDragon = new Dragon(randomizePosition(ptUpperRight, posX, posY));
+		Dragon* newDragon = new Dragon(randomizePosition(ptUpperRight, posX, posY), velX, velY, angle);
 		newDragon->setInitialVelocity(velX, velY);
 		return newDragon;
 	}
