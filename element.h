@@ -18,6 +18,16 @@ public:
         this->radius = 0;
         this->numFragments = 0;
     }
+    Element()
+    {
+        this->position = Position(0.0, 0.0);
+        this->velX = 0.0;
+        this->velY = 0.0;
+        this->angle = 0.0;
+        this->dead = false;
+        this->radius = 0;
+        this->numFragments = 0;
+    }
 
     virtual ~Element() {}
     virtual void updatePosition(Simulator& sim) = 0;

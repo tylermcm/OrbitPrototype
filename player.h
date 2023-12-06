@@ -19,6 +19,8 @@ public:
         this->numFragments = 4;
         this->thrust = false;
     }
+    Player() : Satellite() { this->thrust = false; }
+
 
     static Player* create(double posX, double posY, double velX, double velY, double angle)
     {
@@ -54,8 +56,8 @@ public:
     void draw(ogstream& gout, double angle) 
     {
         drawProjectiles(gout);
-        gout.drawShip(this->getPosition(), angle, this->thrust);
-        std::cout << "ship angle: " << angle << std::endl;
+        if (!this->dead)
+            gout.drawShip(this->getPosition(), angle, this->thrust);
         
     }
 

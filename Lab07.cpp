@@ -19,6 +19,7 @@
 #include "satellite.h"
 #include "player.h"
 #include "test.h"
+#include "earth.h"
 using namespace std;
 
 /*************************************************************************
@@ -37,6 +38,7 @@ public:
 		satellites.push_back(Dragon::create(ptUpperRight, 0.0, 8'000'000.0, -7900.0, 0.0, 0.0));
 		player = Player::create(0.0, 45'500'000.0, 0.0, -2000.0, 0.0);
 		satellites.push_back(player);
+		satellites.push_back(new Earth());
 
 	}
 
@@ -89,7 +91,7 @@ void callBack(const Interface* pUI, void* p)
 			if (!(*satellite)->isDead() && !(*satellite2)->isDead())
 			{
 				double distance = computeDistance((*satellite)->getPosition(),
-					                              (*satellite2)->getPosition());
+					                              (*satellite2)->getPosition()) / 128000;
 				if (distance < (*satellite)->getRadius() + (*satellite2)->getRadius())
 				{
 					(*satellite)->kill();
@@ -105,7 +107,7 @@ void callBack(const Interface* pUI, void* p)
 
 	// Draw the earth
 	pt.setMeters(0.0, 0.0);
-	gout.drawEarth(pt, pDemo->angleEarth);
+	//gout.drawEarth(pt, pDemo->angleEarth);
 }
 
 

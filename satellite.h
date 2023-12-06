@@ -15,6 +15,7 @@ public:
 		this->radius = 10;
 		this->numFragments = 2;
 	}
+	Satellite() : Element() {}
 	static Satellite* create(const Position& ptUpperRight);
 
 	void updatePosition(Simulator& sim) override
@@ -38,6 +39,7 @@ public:
 		this->radius = 12;
 		this->numFragments = 2;
 	}
+	GPS() : Satellite() {}
 
 	static GPS* create(const Position& ptUpperRight, double posX, double posY, double velX, double velY, double angle)
 	{
@@ -69,6 +71,8 @@ public:
 		this->radius = 4;
 		this->numFragments = 4;
 	}
+	Sputnik() : Satellite() {}
+
 	static Sputnik* create(const Position& ptUpperRight, double posX, double posY, double velX, double velY, double angle)
 	{
 		Sputnik* newSputnik = new Sputnik(randomizePosition(ptUpperRight, posX, posY), velX, velY, angle);
@@ -97,6 +101,8 @@ public:
 		this->radius = 10;
 		this->numFragments = 0;
 	}
+	Hubble() : Satellite() {}
+
 	static Hubble* create(const Position& ptUpperRight, double posX, double posY, double velX, double velY, double angle)
 	{
 		Hubble* newHubble = new Hubble(randomizePosition(ptUpperRight, posX, posY), velX, velY, angle);
@@ -126,6 +132,8 @@ public:
 		this->radius = 6;
 		this->numFragments = 2;
 	}
+	Starlink() : Satellite() {}
+
 	static Starlink* create(const Position& ptUpperRight, double posX, double posY, double velX, double velY, double angle)
 	{
 		Starlink* newStarlink = new Starlink(randomizePosition(ptUpperRight, posX, posY), velX, velY, angle);
@@ -155,6 +163,8 @@ public:
 		this->radius = 7;
 		this->numFragments = 2;
 	}
+	Dragon() : Satellite() {}
+
 	static Dragon* create(const Position& ptUpperRight, double posX, double posY, double velX, double velY, double angle)
 	{
 		Dragon* newDragon = new Dragon(randomizePosition(ptUpperRight, posX, posY), velX, velY, angle);
