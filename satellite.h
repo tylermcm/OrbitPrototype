@@ -6,6 +6,13 @@
 #include "uiDraw.h"
 
 
+struct gpsInitialVals
+{
+	Position pos;
+	double velX;
+	double velY;
+};
+
 class Satellite : public Element
 {
 public:
@@ -17,6 +24,7 @@ public:
 	}
 	Satellite() : Element() {}
 	static Satellite* create(const Position& ptUpperRight);
+	static const std::vector<gpsInitialVals>& getGpsData();
 
 	void updatePosition(Simulator& sim) override
 	{
@@ -26,6 +34,8 @@ public:
 	virtual void kill() = 0;
 
 	virtual void draw(ogstream& gout, double angle) = 0;
+
+	bool isDead() const { return dead; }
 
 };
 

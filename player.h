@@ -1,5 +1,7 @@
 #pragma once
 #include <vector>
+
+#include "fragment.h"
 #include "projectile.h"
 #include "position.h"
 #include "simulator.h"
@@ -53,7 +55,7 @@ public:
         this->thrust = t;
     }
 
-    void draw(ogstream& gout, double angle) 
+    void draw(ogstream& gout, double angle) override
     {
         drawProjectiles(gout);
         if (!this->dead)
@@ -63,6 +65,7 @@ public:
 
     void handleInput(const Interface* pUI)
     {
+        thrust = pUI->isDown();
         if (pUI->isDown())
         {
             physics.setDDX(physics.computeHorizontalComponent(2.0, angle));
@@ -76,46 +79,51 @@ public:
             this->angle -= 0.1;
         if (pUI->isRight())
             this->angle += 0.1;
-        if (pUI->isSpace())
-        {
-             shoot();
-        }
+
     }
 
-    void shoot() {
+    Projectile* shoot()
+	{
         Position playerPos = getPosition();
         double shootAngle = getAngle();
 
         Position projectileStart = rotate(playerPos, 0.0, 19.0, shootAngle);
+        std::cout << projectileStart << std::endl;
         double additionalVelocity = 9000;
 
-        projectiles.emplace_back(projectileStart, shootAngle, additionalVelocity);
+        Projectile* newProjectile = new Projectile(projectileStart, shootAngle, additionalVelocity);
+        return newProjectile;
     }
 
     void updateProjectiles(double elapsedTime, double realTimeElapsed) {
         for (auto& projectile : projectiles) {
-            projectile.update(elapsedTime, realTimeElapsed);
+            projectile->update(elapsedTime, realTimeElapsed);
         }
     }
 
-    void drawProjectiles(ogstream& gout) {
+
+    void clearProjectiles()
+    {
+        projectiles.clear();
+    }
+
+    void drawProjectiles(ogstream& gout)
+	{
         for (auto& projectile : projectiles) {
-            if (projectile.isActive()) {
-                gout.drawProjectile(projectile.getPosition());
+            if (projectile->isActive()) {
+                gout.drawProjectile(projectile->getPosition());
             }
         }
     }
 
-
+    const std::vector<Projectile*>& getProjectiles() const
+	{
+        return projectiles;
+    }
 
 private:
-    Projectile projectile;
-    std::vector<Projectile> projectiles;
+    Projectile* projectile;
+    std::vector<Projectile*> projectiles;
+    Fragment* fragment;
     bool thrust;
 };
-
-
-
-
-
-

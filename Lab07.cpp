@@ -29,9 +29,14 @@ using namespace std;
 class Demo
 {
 public:
-	Demo(Position ptUpperRight) : ptUpperRight(ptUpperRight), angleShip(4.71239), angleEarth(0.0) {
-		// TODO We will eventually need to implement the other array of GPS we defined in satellite.cpp
-		satellites.push_back(GPS::create(ptUpperRight, 0.0, 26'560'000.0, -3880.0, 0.0, 0.0));
+	Demo(Position ptUpperRight) : ptUpperRight(ptUpperRight), angleShip(4.71239), angleEarth(0.0)
+	{
+		//satellites.push_back(GPS::create(ptUpperRight, 0.0, 26'560'000.0, -3880.0, 0.0, 0.0));
+		const auto& gpsData = Satellite::getGpsData();
+		for (const auto& gpsVal : gpsData) {
+			satellites.push_back(GPS::create(ptUpperRight, gpsVal.pos.getMetersX(), gpsVal.pos.getMetersY(), gpsVal.velX, gpsVal.velY, 0.0));
+		}
+
 		satellites.push_back(Hubble::create(ptUpperRight, 0.0, -42'164'000.0, 3100.0, 0.0, 0.0));
 		satellites.push_back(Sputnik::create(ptUpperRight, -36'515'095.13, 21'082'000.0, 2050.0, 2684.68, 0.0));
 		satellites.push_back(Starlink::create(ptUpperRight, 0.0, -13'020'000.0, 5800.0, 0.0, 0.0));
@@ -39,7 +44,6 @@ public:
 		player = Player::create(0.0, 45'500'000.0, 0.0, -2000.0, 0.0);
 		satellites.push_back(player);
 		satellites.push_back(new Earth());
-
 	}
 
 
@@ -51,11 +55,68 @@ public:
 	double angleShip;
 	double angleEarth;
 	std::vector<Satellite*> satellites;
+
+
+	
+	void handlePlayerInput(const Interface* pUI) {
+		if (!player->isDead()) {
+			player->handleInput(pUI);
+			if (pUI->isSpace()) {
+				Satellite* newProjectile = player->shoot();
+				satellites.push_back(newProjectile);
+			}
+		}
+	}
+
+	void updateSatellites(double elapsedTime) {
+		for (auto satellite : satellites) {
+			Projectile* projectile = dynamic_cast<Projectile*>(satellite);
+			if (projectile != nullptr) {
+				projectile->update(elapsedTime, 1.0 / 30.0);
+			}
+			else {
+				satellite->updatePosition(sim);
+			}
+		}
+	}
+
+	void checkCollisions() {
+		for (auto it1 = satellites.begin(); it1 != satellites.end(); ++it1) {
+			for (auto it2 = std::next(it1); it2 != satellites.end(); ++it2) {
+				if (!(*it1)->isDead() && !(*it2)->isDead()) {
+					double distance = computeDistance((*it1)->getPosition(), (*it2)->getPosition()) / 128000;
+					if (distance < (*it1)->getRadius() + (*it2)->getRadius()) {
+						(*it1)->kill();
+						(*it2)->kill();
+					}
+				}
+			}
+		}
+	}
+
+	void drawSatellites(ogstream& gout) {
+		for (auto satellite : satellites) {
+			satellite->draw(gout, satellite->getAngle());
+		}
+		std::cout << satellites.size() << std::endl;
+	}
+	void removeDeadSatellites()
+	{
+		for (auto it = satellites.begin(); it != satellites.end();)
+		{
+			if ((*it)->isDead())
+			{
+				delete*it; // Free the memory
+				it = satellites.erase(it);
+			}
+			else
+			{
+				++it; 
+			}
+		}
+	}
 };
 
-
-//I added all of the satellites to a vector which will make the collision detection easier.The code
-//for that was provided in the lab video, so implementation should be straightforward.
 
 
 /*************************************
@@ -68,46 +129,22 @@ public:
 void callBack(const Interface* pUI, void* p)
 {
 	// Cast the void pointer into a Demo object
-	Demo* pDemo = (Demo*)p;
+	auto pDemo = static_cast<Demo*>(p);
 
 	// Set up the drawing stream
 	Position pt;
 	ogstream gout(pt);
-
-	// Handle player input and update player position
-	pDemo->player->handleInput(pUI);
-	//pDemo->player->updatePosition(pDemo->sim);
-
-	// Rotate the earth
 	pDemo->angleEarth += pDemo->physics.getRotationSpeed();
-	for (auto satellite : pDemo->satellites)
-		satellite->updatePosition(pDemo->sim);
 
-	vector <Satellite*>::iterator satellite;
-	vector <Satellite*>::iterator satellite2;
-	// Update and draw each satellite
-	for (satellite = pDemo->satellites.begin(); satellite != pDemo->satellites.end(); ++satellite)
-		for ((satellite2 = satellite)++; satellite2 != pDemo->satellites.end(); ++satellite2)
-			if (!(*satellite)->isDead() && !(*satellite2)->isDead())
-			{
-				double distance = computeDistance((*satellite)->getPosition(),
-					                              (*satellite2)->getPosition()) / 128000;
-				if (distance < (*satellite)->getRadius() + (*satellite2)->getRadius())
-				{
-					(*satellite)->kill();
-					(*satellite2)->kill();
-				}
-			}
-		
-	for (auto satellite : pDemo->satellites)
-		satellite->draw(gout, satellite->getAngle());
 
-	// Draw the Player
-	//pDemo->player->draw(gout, pDemo->player->getAngle());
+	pDemo->handlePlayerInput(pUI);
+	pDemo->updateSatellites(48.0);
+	pDemo->checkCollisions();
+	pDemo->removeDeadSatellites();
+	pDemo->drawSatellites(gout);
 
-	// Draw the earth
 	pt.setMeters(0.0, 0.0);
-	//gout.drawEarth(pt, pDemo->angleEarth);
+	
 }
 
 
@@ -133,9 +170,9 @@ int main(int argc, char** argv)
 	ptUpperRight.setZoom(128000.0 /* 128km equals 1 pixel */);
 	ptUpperRight.setPixelsX(1000.0);
 	ptUpperRight.setPixelsY(1000.0);
-	Interface ui(0, NULL,
-		"Demo",   /* name on the window */
-		ptUpperRight);
+	Interface ui(0, nullptr,
+	             "Demo", /* name on the window */
+	             ptUpperRight);
 
 	// Initialize the demo
 	Demo demo(ptUpperRight);
@@ -146,4 +183,3 @@ int main(int argc, char** argv)
 
 	return 0;
 }
-
