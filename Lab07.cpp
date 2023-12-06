@@ -35,15 +35,15 @@ public:
 		satellites.push_back(Sputnik::create(ptUpperRight, -36'515'095.13, 21'082'000.0, 2050.0, 2684.68, 0.0));
 		satellites.push_back(Starlink::create(ptUpperRight, 0.0, -13'020'000.0, 5800.0, 0.0, 0.0));
 		satellites.push_back(Dragon::create(ptUpperRight, 0.0, 8'000'000.0, -7900.0, 0.0, 0.0));
-
-		Player = Player::create(0.0, 45'500'000.0, 0.0, -2000.0, 0.0);
+		player = Player::create(0.0, 45'500'000.0, 0.0, -2000.0, 0.0);
+		satellites.push_back(player);
 
 	}
 
 
 	Position ptGPS;
 	Position ptUpperRight;
-	Player* Player;
+	Player* player;
 	Physics physics;
 	Simulator sim;
 	double angleShip;
@@ -73,20 +73,35 @@ void callBack(const Interface* pUI, void* p)
 	ogstream gout(pt);
 
 	// Handle player input and update player position
-	pDemo->Player->handleInput(pUI);
-	pDemo->Player->updatePosition(pDemo->sim);
+	pDemo->player->handleInput(pUI);
+	//pDemo->player->updatePosition(pDemo->sim);
 
 	// Rotate the earth
 	pDemo->angleEarth += pDemo->physics.getRotationSpeed();
-
-	// Update and draw each satellite
-	for (auto satellite : pDemo->satellites) {
+	for (auto satellite : pDemo->satellites)
 		satellite->updatePosition(pDemo->sim);
+
+	vector <Satellite*>::iterator satellite;
+	vector <Satellite*>::iterator satellite2;
+	// Update and draw each satellite
+	for (satellite = pDemo->satellites.begin(); satellite != pDemo->satellites.end(); ++satellite)
+		for ((satellite2 = satellite)++; satellite2 != pDemo->satellites.end(); ++satellite2)
+			if (!(*satellite)->isDead() && !(*satellite2)->isDead())
+			{
+				double distance = computeDistance((*satellite)->getPosition(),
+					                              (*satellite2)->getPosition());
+				if (distance < (*satellite)->getRadius() + (*satellite2)->getRadius())
+				{
+					(*satellite)->kill();
+					(*satellite2)->kill();
+				}
+			}
+		
+	for (auto satellite : pDemo->satellites)
 		satellite->draw(gout, satellite->getAngle());
-	}
 
 	// Draw the Player
-	pDemo->Player->draw(gout, pUI, pDemo->Player->getAngle());
+	//pDemo->player->draw(gout, pDemo->player->getAngle());
 
 	// Draw the earth
 	pt.setMeters(0.0, 0.0);

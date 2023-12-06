@@ -5,13 +5,20 @@
 #include "simulator.h"
 #include "uiDraw.h"
 #include "uiInteract.h"
+#include "satellite.h"
 
 
-class Player : public Element
+class Player : public Satellite
 {
 public:
     Player(const Position& pos, double velX, double velY, double angle)
-		: Element(pos, velX, velY, angle) {}
+		: Satellite(pos, velX, velY, angle) 
+    {
+        this->dead = false;
+        this->radius = 10;
+        this->numFragments = 4;
+        this->thrust = false;
+    }
 
     static Player* create(double posX, double posY, double velX, double velY, double angle)
     {
@@ -34,10 +41,20 @@ public:
         updateProjectiles(48.0, 1.0 / 30.0);
     }
 
-    void draw(ogstream& gout, const Interface* pUI, double angle) 
+    void kill() override
+    {
+        this->dead = true;
+    }
+
+    void setThrust(bool t)
+    {
+        this->thrust = t;
+    }
+
+    void draw(ogstream& gout, double angle) 
     {
         drawProjectiles(gout);
-        gout.drawShip(this->getPosition(), angle, pUI->isDown());
+        gout.drawShip(this->getPosition(), angle, this->thrust);
         std::cout << "ship angle: " << angle << std::endl;
         
     }
@@ -92,6 +109,7 @@ public:
 private:
     Projectile projectile;
     std::vector<Projectile> projectiles;
+    bool thrust;
 };
 
 

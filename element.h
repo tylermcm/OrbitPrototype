@@ -14,14 +14,20 @@ public:
         this->velX = velX;
         this->velY = velY;
         this->angle = angle;
+        this->dead = false;
+        this->radius = 0;
+        this->numFragments = 0;
     }
 
     virtual ~Element() {}
     virtual void updatePosition(Simulator& sim) = 0;
+    virtual void kill() = 0;
 
     Position getPosition() const { return position; }
     void setPosition(const Position& newPosition) { position = newPosition; }
     double getAngle() const { return angle; }
+    bool isDead() const { return dead; }
+    double getRadius() const { return radius; }
     Physics& getPhysics() { return physics; }
 
     void setInitialVelocity(double velX, double velY)
@@ -45,4 +51,7 @@ protected:
     double velX;
     double velY;
     double angle;
+    bool dead;
+    double radius;
+    int numFragments;
 };
