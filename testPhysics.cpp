@@ -124,7 +124,7 @@ void PhysicsTest::direction_g_normal()
 {
 	//setup
 	double xs = 3465326;
-	double ys =-23462;
+	double ys = -23462;
 	double expected = -1.56402;
 	//exercise
 	result = physics.directionOfGravityPull(xs, ys);

@@ -32,53 +32,65 @@ using std::max;
 class ogstream : public std::ostringstream
 {
 public:
-   ogstream() {}
-   ogstream(const Position& pt) : pt(pt) {}
-   ~ogstream() { flush(); }; 
+	ogstream()
+	{
+	}
 
-   // This is mostly for the text drawing stuff
-   virtual void flush();
-   virtual void setPosition(const Position& pt) { flush(); this->pt = pt; }
-   virtual ogstream& operator = (const Position& pt)
-   {
-      setPosition(pt);
-      return *this;
-   }
+	ogstream(const Position& pt) : pt(pt)
+	{
+	}
 
-   // This is specific to the orbit simulator
-   virtual void drawFragment(const Position& center, double rotation);
-   virtual void drawProjectile(const Position& pt);
+	~ogstream() override { flush(); };
 
-   virtual void drawCrewDragon(const Position& center, double rotation);
-   virtual void drawCrewDragonRight(const Position& center, double rotation, const Position& offset = Position());
-   virtual void drawCrewDragonLeft(const Position& center, double rotation, const Position& offset = Position());
-   virtual void drawCrewDragonCenter(const Position& center, double rotation);
+	// This is mostly for the text drawing stuff
+	virtual void flush();
 
-   virtual void drawSputnik(const Position& center, double rotation);
+	virtual void setPosition(const Position& pt)
+	{
+		flush();
+		this->pt = pt;
+	}
 
-   virtual void drawGPS(const Position& center, double rotation);
-   virtual void drawGPSCenter(const Position& center, double rotation);
-   virtual void drawGPSRight(const Position& center, double rotation, const Position& offset = Position());
-   virtual void drawGPSLeft(const Position& center, double rotation, const Position& offset = Position());
+	virtual ogstream& operator =(const Position& pt)
+	{
+		setPosition(pt);
+		return *this;
+	}
 
-   virtual void drawHubble(const Position& center, double rotation);
-   virtual void drawHubbleComputer(const Position& center, double rotation, const Position& offset = Position());
-   virtual void drawHubbleTelescope(const Position& center, double rotation, const Position& offset = Position());
-   virtual void drawHubbleLeft(const Position& center, double rotation, const Position& offset = Position());
-   virtual void drawHubbleRight(const Position& center, double rotation, const Position& offset = Position());
+	// This is specific to the orbit simulator
+	virtual void drawFragment(const Position& center, double rotation);
+	virtual void drawProjectile(const Position& pt);
 
-   virtual void drawStarlink(const Position& center, double rotation);
-   virtual void drawStarlinkBody(const Position& center, double rotation, const Position& offset = Position());
-   virtual void drawStarlinkArray(const Position& center, double rotation, const Position& offset = Position());
+	virtual void drawCrewDragon(const Position& center, double rotation);
+	virtual void drawCrewDragonRight(const Position& center, double rotation, const Position& offset = Position());
+	virtual void drawCrewDragonLeft(const Position& center, double rotation, const Position& offset = Position());
+	virtual void drawCrewDragonCenter(const Position& center, double rotation);
 
-   virtual void drawShip(const Position& center, double rotation, bool thrust);
+	virtual void drawSputnik(const Position& center, double rotation);
 
-   virtual void drawEarth(const Position& center, double rotation);
+	virtual void drawGPS(const Position& center, double rotation);
+	virtual void drawGPSCenter(const Position& center, double rotation);
+	virtual void drawGPSRight(const Position& center, double rotation, const Position& offset = Position());
+	virtual void drawGPSLeft(const Position& center, double rotation, const Position& offset = Position());
 
-   virtual void drawStar(const Position& point, unsigned char phase);
+	virtual void drawHubble(const Position& center, double rotation);
+	virtual void drawHubbleComputer(const Position& center, double rotation, const Position& offset = Position());
+	virtual void drawHubbleTelescope(const Position& center, double rotation, const Position& offset = Position());
+	virtual void drawHubbleLeft(const Position& center, double rotation, const Position& offset = Position());
+	virtual void drawHubbleRight(const Position& center, double rotation, const Position& offset = Position());
+
+	virtual void drawStarlink(const Position& center, double rotation);
+	virtual void drawStarlinkBody(const Position& center, double rotation, const Position& offset = Position());
+	virtual void drawStarlinkArray(const Position& center, double rotation, const Position& offset = Position());
+
+	virtual void drawShip(const Position& center, double rotation, bool thrust);
+
+	virtual void drawEarth(const Position& center, double rotation);
+
+	virtual void drawStar(const Position& point, unsigned char phase);
 
 protected:
-   Position pt;
+	Position pt;
 };
 
 /*************************************************************************
@@ -88,45 +100,50 @@ protected:
 class ogstreamDummy : public ogstream
 {
 public:
-   ogstreamDummy(const Position& pt) {}
-   ~ogstreamDummy() { }
+	ogstreamDummy(const Position& pt)
+	{
+	}
 
-   // This is mostly for the text drawing stuff
-   void flush();
-   void setPosition(const Position& pt);
-   ogstreamDummy& operator = (const Position& pt);
+	~ogstreamDummy() override
+	{
+	}
 
-   // This is specific to the orbit simulator
-   void drawFragment(const Position& center, double rotation);
-   void drawProjectile(const Position& pt);
+	// This is mostly for the text drawing stuff
+	void flush() override;
+	void setPosition(const Position& pt) override;
+	ogstreamDummy& operator =(const Position& pt) override;
 
-   void drawCrewDragon(const Position& center, double rotation);
-   void drawCrewDragonRight(const Position& center, double rotation, const Position& offset = Position());
-   void drawCrewDragonLeft(const Position& center, double rotation, const Position& offset = Position());
-   void drawCrewDragonCenter(const Position& center, double rotation);
+	// This is specific to the orbit simulator
+	void drawFragment(const Position& center, double rotation) override;
+	void drawProjectile(const Position& pt) override;
 
-   void drawSputnik(const Position& center, double rotation);
+	void drawCrewDragon(const Position& center, double rotation) override;
+	void drawCrewDragonRight(const Position& center, double rotation, const Position& offset = Position()) override;
+	void drawCrewDragonLeft(const Position& center, double rotation, const Position& offset = Position()) override;
+	void drawCrewDragonCenter(const Position& center, double rotation) override;
 
-   void drawGPS(const Position& center, double rotation);
-   void drawGPSCenter(const Position& center, double rotation);
-   void drawGPSRight(const Position& center, double rotation, const Position& offset = Position());
-   void drawGPSLeft(const Position& center, double rotation, const Position& offset = Position());
+	void drawSputnik(const Position& center, double rotation) override;
 
-   void drawHubble(const Position& center, double rotation);
-   void drawHubbleComputer(const Position& center, double rotation, const Position& offset = Position());
-   void drawHubbleTelescope(const Position& center, double rotation, const Position& offset = Position());
-   void drawHubbleLeft(const Position& center, double rotation, const Position& offset = Position());
-   void drawHubbleRight(const Position& center, double rotation, const Position& offset = Position());
+	void drawGPS(const Position& center, double rotation) override;
+	void drawGPSCenter(const Position& center, double rotation) override;
+	void drawGPSRight(const Position& center, double rotation, const Position& offset = Position()) override;
+	void drawGPSLeft(const Position& center, double rotation, const Position& offset = Position()) override;
 
-   void drawStarlink(const Position& center, double rotation);
-   void drawStarlinkBody(const Position& center, double rotation, const Position& offset = Position());
-   void drawStarlinkArray(const Position& center, double rotation, const Position& offset = Position());
+	void drawHubble(const Position& center, double rotation) override;
+	void drawHubbleComputer(const Position& center, double rotation, const Position& offset = Position()) override;
+	void drawHubbleTelescope(const Position& center, double rotation, const Position& offset = Position()) override;
+	void drawHubbleLeft(const Position& center, double rotation, const Position& offset = Position()) override;
+	void drawHubbleRight(const Position& center, double rotation, const Position& offset = Position()) override;
 
-   void drawShip(const Position& center, double rotation, bool thrust);
+	void drawStarlink(const Position& center, double rotation) override;
+	void drawStarlinkBody(const Position& center, double rotation, const Position& offset = Position()) override;
+	void drawStarlinkArray(const Position& center, double rotation, const Position& offset = Position()) override;
 
-   void drawEarth(const Position& center, double rotation);
+	void drawShip(const Position& center, double rotation, bool thrust) override;
 
-   void drawStar(const Position& point, unsigned char phase);
+	void drawEarth(const Position& center, double rotation) override;
+
+	void drawStar(const Position& point, unsigned char phase) override;
 };
 
 /*************************************************************************
@@ -136,45 +153,50 @@ public:
 class ogstreamFake : public ogstream
 {
 public:
-   ogstreamFake(const Position& pt) {}
-   ~ogstreamFake() { }
+	ogstreamFake(const Position& pt)
+	{
+	}
 
-   // This is mostly for the text drawing stuff
-   void flush();
-   void setPosition(const Position& pt);
-   ogstreamFake& operator = (const Position& pt);
+	~ogstreamFake() override
+	{
+	}
 
-   // This is specific to the orbit simulator
-   void drawFragment(const Position& center, double rotation);
-   void drawProjectile(const Position& pt);
+	// This is mostly for the text drawing stuff
+	void flush() override;
+	void setPosition(const Position& pt) override;
+	ogstreamFake& operator =(const Position& pt) override;
 
-   void drawCrewDragon(const Position& center, double rotation);
-   void drawCrewDragonRight(const Position& center, double rotation, const Position& offset = Position());
-   void drawCrewDragonLeft(const Position& center, double rotation, const Position& offset = Position());
-   void drawCrewDragonCenter(const Position& center, double rotation);
+	// This is specific to the orbit simulator
+	void drawFragment(const Position& center, double rotation) override;
+	void drawProjectile(const Position& pt) override;
 
-   void drawSputnik(const Position& center, double rotation);
+	void drawCrewDragon(const Position& center, double rotation) override;
+	void drawCrewDragonRight(const Position& center, double rotation, const Position& offset = Position()) override;
+	void drawCrewDragonLeft(const Position& center, double rotation, const Position& offset = Position()) override;
+	void drawCrewDragonCenter(const Position& center, double rotation) override;
 
-   void drawGPS(const Position& center, double rotation);
-   void drawGPSCenter(const Position& center, double rotation);
-   void drawGPSRight(const Position& center, double rotation, const Position& offset = Position());
-   void drawGPSLeft(const Position& center, double rotation, const Position& offset = Position());
+	void drawSputnik(const Position& center, double rotation) override;
 
-   void drawHubble(const Position& center, double rotation);
-   void drawHubbleComputer(const Position& center, double rotation, const Position& offset = Position());
-   void drawHubbleTelescope(const Position& center, double rotation, const Position& offset = Position());
-   void drawHubbleLeft(const Position& center, double rotation, const Position& offset = Position());
-   void drawHubbleRight(const Position& center, double rotation, const Position& offset = Position());
+	void drawGPS(const Position& center, double rotation) override;
+	void drawGPSCenter(const Position& center, double rotation) override;
+	void drawGPSRight(const Position& center, double rotation, const Position& offset = Position()) override;
+	void drawGPSLeft(const Position& center, double rotation, const Position& offset = Position()) override;
 
-   void drawStarlink(const Position& center, double rotation);
-   void drawStarlinkBody(const Position& center, double rotation, const Position& offset = Position());
-   void drawStarlinkArray(const Position& center, double rotation, const Position& offset = Position());
+	void drawHubble(const Position& center, double rotation) override;
+	void drawHubbleComputer(const Position& center, double rotation, const Position& offset = Position()) override;
+	void drawHubbleTelescope(const Position& center, double rotation, const Position& offset = Position()) override;
+	void drawHubbleLeft(const Position& center, double rotation, const Position& offset = Position()) override;
+	void drawHubbleRight(const Position& center, double rotation, const Position& offset = Position()) override;
 
-   void drawShip(const Position& center, double rotation, bool thrust);
+	void drawStarlink(const Position& center, double rotation) override;
+	void drawStarlinkBody(const Position& center, double rotation, const Position& offset = Position()) override;
+	void drawStarlinkArray(const Position& center, double rotation, const Position& offset = Position()) override;
 
-   void drawEarth(const Position& center, double rotation);
+	void drawShip(const Position& center, double rotation, bool thrust) override;
 
-   void drawStar(const Position& point, unsigned char phase);
+	void drawEarth(const Position& center, double rotation) override;
+
+	void drawStar(const Position& point, unsigned char phase) override;
 };
 
 /******************************************************************
@@ -184,7 +206,7 @@ public:
  *    INPUT:   min, max : The number of values (min <= num <= max)
  *    OUTPUT   <return> : Return the integer/double
  ****************************************************************/
-int    random(int    min, int    max);
+int random(int min, int max);
 double random(double min, double max);
 
 // Declare rotate so it can be used by player class

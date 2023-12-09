@@ -33,16 +33,20 @@ public:
 	{
 		// Start by pushing all the satellites to a vector
 		const auto& gpsData = Satellite::getGpsData();
-		for (const auto& gpsVal : gpsData) {
-			satellites.push_back(GPS::create(ptUpperRight, gpsVal.pos.getMetersX(), gpsVal.pos.getMetersY(), gpsVal.velX, gpsVal.velY, 0.0));
+		for (const auto& gpsVal : gpsData)
+		{
+			satellites.push_back(GPS::create(ptUpperRight, gpsVal.pos.getMetersX(), gpsVal.pos.getMetersY(),
+			                                 gpsVal.velX, gpsVal.velY, 0.0));
 		}
 		satellites.push_back(Hubble::create(ptUpperRight, 0.0, -42'164'000.0, 3100.0, 0.0, 0.0));
 		satellites.push_back(Sputnik::create(ptUpperRight, -36'515'095.13, 21'082'000.0, 2050.0, 2684.68, 0.0));
 		satellites.push_back(Starlink::create(ptUpperRight, 0.0, -13'020'000.0, 5800.0, 0.0, 0.0));
 		satellites.push_back(Dragon::create(ptUpperRight, 0.0, 8'000'000.0, -7900.0, 0.0, 0.0));
-		player = Player::create(0.0, 45'500'000.0, 0.0, -2000.0, 0.0);
+		player = Player::create(-450.0, 450.0 , 0.0, -2000.0, 1.57);
 		satellites.push_back(player);
 		satellites.push_back(new Earth());
+
+		Satellite::setSatellitesList(&satellites);
 
 		//push 500 stars to our vector
 		for (int i = 0; i < 500; i++)
@@ -65,81 +69,108 @@ public:
 	std::vector<Satellite*> satellites;
 	std::vector<Star*> stars;
 
-/*********************************
- * Take and apply input to player class
- *********************************/
-	void handlePlayerInput(const Interface* pUI) {
-		if (!player->isDead()) {
+	/*********************************
+	 * Take and apply input to player class
+	 *********************************/
+	void handlePlayerInput(const Interface* pUI)
+	{
+		if (!player->isDead())
+		{
 			player->handleInput(pUI); // control ship
-			if (pUI->isSpace()) { //shoot projectile
+			if (pUI->isSpace())
+			{
+				//shoot projectile
 				Projectile* newProjectile = player->shoot();
- 				satellites.push_back(newProjectile); // push projectile to satellite vector
+				satellites.push_back(newProjectile); // push projectile to satellite vector
 			}
 		}
 	}
 
-/*********************************
- * Loop through satellites and update them
- *********************************/
-	void updateSatellites(double elapsedTime) {
-		for (auto satellite : satellites) {
-			Projectile* projectile = dynamic_cast<Projectile*>(satellite);
-			if (projectile != nullptr) {
+	/*********************************
+	 * Loop through satellites and update them
+	 *********************************/
+	void updateSatellites(double elapsedTime)
+	{
+		for (auto satellite : satellites)
+		{
+			auto projectile = dynamic_cast<Projectile*>(satellite);
+			if (projectile != nullptr)
+			{
 				projectile->update(elapsedTime, 1.0 / 30.0); // update the satellite if it's a projectile
 			}
-			else {
+			else
+			{
 				satellite->updatePosition(sim); // update all other satellites
 			}
 		}
 	}
 
-/*********************************
- * Loop through stars and update their phases
- *********************************/
-	void updateStars() {
+	/*********************************
+	 * Loop through stars and update their phases
+	 *********************************/
+	void updateStars()
+	{
 		for (auto star : stars)
 			star->update(); //changes the phases of the stars
 	}
 
-/*********************************
- * Checks each satellite against each other to check if they collide
- * If they do collide, kill them
- *********************************/
-	void checkCollisions() {
-		for (auto it1 = satellites.begin(); it1 != satellites.end(); ++it1) {
-			for (auto it2 = std::next(it1); it2 != satellites.end(); ++it2) {
-				if (!(*it1)->isDead() && !(*it2)->isDead()) {
-					double distance = computeDistance((*it1)->getPosition(), (*it2)->getPosition()) / 128000; //get the distance between the two satellites being compared
-					if (distance < (*it1)->getRadius() + (*it2)->getRadius()) {
-						(*it1)->kill(); // if they collide, destroy
-						(*it2)->kill();
+	/*********************************
+	 * Checks each satellite against each other to check if they collide
+	 * If they do collide, kill them
+	 *********************************/
+	void checkCollisions()
+	{
+		std::vector<Satellite*> toBeKilled;
+		for (auto it1 = satellites.begin(); it1 != satellites.end(); ++it1)
+		{
+			for (auto it2 = std::next(it1); it2 != satellites.end(); ++it2)
+			{
+				if (!(*it1)->isDead() && !(*it2)->isDead())
+				{
+					double distance = computeDistance((*it1)->getPosition(), (*it2)->getPosition()) / 128000;
+					if (distance < (*it1)->getRadius() + (*it2)->getRadius())
+					{
+						toBeKilled.push_back(*it1);
+						toBeKilled.push_back(*it2);
 					}
 				}
 			}
 		}
+
+		for (auto* satellite : toBeKilled)
+		{
+			satellite->kill();
+		}
+
+		satellites.erase(std::remove_if(satellites.begin(), satellites.end(),
+		                                [](Satellite* s) { return s->isDead(); }),
+		                 satellites.end());
 	}
 
-/*********************************
- * Loop through and draw satellites
- *********************************/
-	void drawSatellites(ogstream& gout) {
-		for (auto satellite : satellites) {
+	/*********************************
+	 * Loop through and draw satellites
+	 *********************************/
+	void drawSatellites(ogstream& gout)
+	{
+		for (auto satellite : satellites)
+		{
 			satellite->draw(gout, satellite->getAngle());
 		}
-		std::cout << satellites.size() << std::endl;
+		//std::cout << satellites.size() << std::endl;
 	}
 
-/*********************************
- * Loop through and draw stars
- *********************************/
-	void drawStars(ogstream& gout) {
+	/*********************************
+	 * Loop through and draw stars
+	 *********************************/
+	void drawStars(ogstream& gout)
+	{
 		for (auto star : stars)
-			star->draw(gout, star->getPhase()); 
+			star->draw(gout, star->getPhase());
 	}
-	
-/*********************************
- * If a satellite is dead, remove it
- *********************************/
+
+	/*********************************
+	 * If a satellite is dead, remove it
+	 *********************************/
 	void removeDeadSatellites()
 	{
 		for (auto it = satellites.begin(); it != satellites.end();)
@@ -151,12 +182,11 @@ public:
 			}
 			else
 			{
-				++it; 
+				++it;
 			}
 		}
 	}
 };
-
 
 
 /*************************************
@@ -181,11 +211,10 @@ void callBack(const Interface* pUI, void* p)
 	pSim->updateStars();
 	pSim->checkCollisions();
 	pSim->removeDeadSatellites();
-	pSim->drawSatellites(gout);
 	pSim->drawStars(gout);
+	pSim->drawSatellites(gout);
 
 	pt.setMeters(0.0, 0.0);
-	
 }
 
 

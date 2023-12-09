@@ -10,8 +10,8 @@ class Simulator
 public:
 	friend testSimulator;
 	void simulation(Element& element);
+
 private:
 	Physics physics;
 	Position pos;
 };
-

@@ -141,7 +141,6 @@
   <ItemGroup>
     <ClCompile Include="earth.cpp" />
     <ClCompile Include="element.cpp" />
-    <ClCompile Include="fragment.cpp" />
     <ClCompile Include="Lab07.cpp" />
     <ClCompile Include="part.cpp" />
     <ClCompile Include="physics.cpp" />
@@ -158,7 +157,6 @@
   <ItemGroup>
     <ClInclude Include="earth.h" />
     <ClInclude Include="element.h" />
-    <ClInclude Include="fragment.h" />
     <ClInclude Include="part.h" />
     <ClInclude Include="physics.h" />
     <ClInclude Include="player.h" />

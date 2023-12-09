@@ -26,7 +26,7 @@ void testRunner()
 	cout << "--------------------------------------------------------";
 	cout << "\n\t\tRunning physics tests" << endl;
 	cout << "--------------------------------------------------------" << endl;
-    PhysicsTest().run();
+	PhysicsTest().run();
 
 	cout << "--------------------------------------------------------";
 	cout << "\n\t\tRunning simulator tests" << endl;

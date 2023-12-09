@@ -4,4 +4,3 @@
 class Part : public Element
 {
 };
-
