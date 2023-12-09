@@ -19,10 +19,9 @@ double Physics::heightAboveEarth(double x, double y) const {
 
 // Function to compute the direction of the pull of gravity in radians
 double Physics::directionOfGravityPull(double xs, double ys) const {
-    const double xe = 0;
-    const double ye = 0;
-
-    double d = atan2(xe - xs, ye - ys);
+    double xe = 0;
+    double ye = 0;
+    double d = atan2(xe - xs,ye - ys);
     return d;
 }
 

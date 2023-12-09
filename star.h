@@ -4,11 +4,6 @@
 
 const int STAR_PHASE_LIMIT = 250; // The max star phase
 
-/*********************************************
- * Star
- * A star that exists in space. It is part of the background
- * so it has no collision and is not affected by Earth's gravity.
- *********************************************/
 class Star : public Element
 {
 public:
@@ -18,20 +13,15 @@ public:
         this->phase = random(0, STAR_PHASE_LIMIT); /* Start at a random phase */
     };
 
-    /******************************************
-    * UPDATE
-    * Stars don't need their position or velocity updated,
-    * so only their phase is updated
-    ********************************************/
-    void update(double time) {
+    void update() {
         if (phase > STAR_PHASE_LIMIT)
-            this->phase = 0; // Resets phase to 0, as to not increment infinitely
+            this->phase = 0; // Resets phase to 0 once it reaches star phase limit
         else
             this->phase++; // Increment phase
     };
 
-    void draw(ogstream& gout, double angle) {
-        gout.drawStar(position, angle);
+    void draw(ogstream& gout, double phase) {
+        gout.drawStar(position, phase);
     }
 
    void updatePosition(Simulator& sim) override
@@ -43,10 +33,7 @@ public:
    {
 
    }
-    /******************************************
-    * GET PHASE
-    * Returns the Star's current phase
-    ********************************************/
+
     int getPhase() { return this->phase; };
 
 private:

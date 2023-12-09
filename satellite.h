@@ -26,7 +26,7 @@ public:
 	static Satellite* create(const Position& ptUpperRight);
 	static const std::vector<gpsInitialVals>& getGpsData();
 
-	void updatePosition(Simulator& sim) override
+	virtual void updatePosition(Simulator& sim)
 	{
 		sim.simulation(*this);
 	}
@@ -67,6 +67,13 @@ public:
 	{
 		if (!this->dead)
 			gout.drawGPS(this->getPosition(), angle);
+	}
+
+	void updatePosition(Simulator& sim) override
+	{
+		this->angle = physics.directionOfGravityPull(this->getPosition().getMetersX(), this->getPosition().getMetersY());
+		this->angle += 90 * (3.14159265358979323846 / 180);
+		sim.simulation(*this);
 	}
 };
 

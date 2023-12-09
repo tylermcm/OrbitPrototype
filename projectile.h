@@ -14,7 +14,7 @@ public:
         this->dead = false;
         this->lifetime = 0.0;
         this->realTimeLifetime = 0.0;
-        this->radius = 2.0;
+        this->radius = 1.0;
     }
 
 
