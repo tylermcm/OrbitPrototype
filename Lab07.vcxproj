@@ -166,6 +166,7 @@
     <ClInclude Include="projectile.h" />
     <ClInclude Include="satellite.h" />
     <ClInclude Include="simulator.h" />
+    <ClInclude Include="star.h" />
     <ClInclude Include="test.h" />
     <ClInclude Include="testPhysics.h" />
     <ClInclude Include="testPosition.h" />

@@ -20,6 +20,7 @@
 #include "player.h"
 #include "test.h"
 #include "earth.h"
+#include "star.h"
 using namespace std;
 
 /*************************************************************************
@@ -35,6 +36,16 @@ public:
 		const auto& gpsData = Satellite::getGpsData();
 		for (const auto& gpsVal : gpsData) {
 			satellites.push_back(GPS::create(ptUpperRight, gpsVal.pos.getMetersX(), gpsVal.pos.getMetersY(), gpsVal.velX, gpsVal.velY, 0.0));
+		}
+
+		for (int i = 0; i < 500; i++)
+		{
+			// screen is 1,000 x 1,000 pixels.
+			Position initial;
+			initial.setPixelsX(random(-500, 500));
+			initial.setPixelsY(random(-500, 500));
+
+			this->stars.push_back(new Star(initial));
 		}
 
 		satellites.push_back(Hubble::create(ptUpperRight, 0.0, -42'164'000.0, 3100.0, 0.0, 0.0));
@@ -55,6 +66,7 @@ public:
 	double angleShip;
 	double angleEarth;
 	std::vector<Satellite*> satellites;
+	std::vector<Star*> stars;
 
 
 	
@@ -100,6 +112,11 @@ public:
 		}
 		std::cout << satellites.size() << std::endl;
 	}
+
+	void drawStars(ogstream& gout) {
+		for (auto star : stars)
+			star->draw(gout, star->getAngle());
+	}
 	void removeDeadSatellites()
 	{
 		for (auto it = satellites.begin(); it != satellites.end();)
@@ -142,6 +159,7 @@ void callBack(const Interface* pUI, void* p)
 	pDemo->checkCollisions();
 	pDemo->removeDeadSatellites();
 	pDemo->drawSatellites(gout);
+	pDemo->drawStars(gout);
 
 	pt.setMeters(0.0, 0.0);
 	
