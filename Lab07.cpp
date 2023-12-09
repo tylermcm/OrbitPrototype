@@ -62,8 +62,8 @@ public:
 		if (!player->isDead()) {
 			player->handleInput(pUI);
 			if (pUI->isSpace()) {
-				Satellite* newProjectile = player->shoot();
-				satellites.push_back(newProjectile);
+				Projectile* newProjectile = player->shoot();
+ 				satellites.push_back(newProjectile);
 			}
 		}
 	}

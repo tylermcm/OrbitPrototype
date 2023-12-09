@@ -7,9 +7,15 @@
 class Projectile : public Satellite {
 public:
     Projectile() : active(false), lifetime(0.0), velocity(0.0) {}
-    Projectile(const Position& startPosition, double angle, double additionalVelocity)
-        : position(startPosition), angle(angle), velocity(additionalVelocity),
-        active(true), lifetime(0.0), realTimeLifetime(0.0) {}
+    Projectile(const Position& startPosition, double angle_, double additionalVelocity) {
+        this->position = startPosition;
+        this->angle = angle_;
+        this->velocity = additionalVelocity;
+        this->dead = false;
+        this->lifetime = 0.0;
+        this->realTimeLifetime = 0.0;
+        this->radius = 2.0;
+    }
 
 
     Position getPosition() const {
@@ -42,18 +48,14 @@ public:
     }
     void kill() override
     {
-        active = false;
+        dead = true;
     }
 
     bool isActive() const { return active; }
 
 private:
-    Position position;
-    Physics physics;
-    double angle;
     double velocity;
     bool active;
     double lifetime;
     double realTimeLifetime;
-
 };
